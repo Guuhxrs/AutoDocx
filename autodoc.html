@@ -998,6 +998,7 @@ function abrirGeo() {
 function navegarSecao(secao) {
   const titulo=document.querySelector('.page-header h2');
   const subtitulo=document.querySelector('.page-header p');
+  const cta=$('btn-new-topbar');
   const featured=document.querySelector('.featured-row');
   const tabela=document.querySelector('.obra-section');
   const widgets=document.querySelector('.widgets-row');
@@ -1016,21 +1017,26 @@ function navegarSecao(secao) {
     document.querySelector('.content')?.appendChild(estado);
   }
 
-  if (secao==='projects') {
+  function abrirProjetos() {
     titulo.textContent='Meus Projetos';
     subtitulo.innerHTML='Você tem <strong id="total-obras">'+(todasObras.length||'—')+'</strong> obras ativas nesta unidade.';
+    cta.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo Projeto';
+    cta.onclick=()=>abrir('modal-nova-obra');
     esconder(estado);
     mostrar(featured,tabela,widgets);
-    return;
   }
 
-  if (secao==='dashboard') {
-    titulo.textContent='Dashboard';
-    subtitulo.textContent='Visão geral da operação e indicadores principais.';
-    esconder(estado);
-    mostrar(featured,tabela,widgets);
-    return;
+  function abrirDashboard() {
+    titulo.textContent='Dashboard Executivo';
+    subtitulo.textContent='Resumo operacional, alertas prioritários e visão rápida dos indicadores.';
+    cta.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>Gerar Resumo';
+    cta.onclick=()=>toast('Resumo executivo gerado com sucesso.','success');
+    esconder(estado,tabela);
+    mostrar(featured,widgets);
   }
+
+  if (secao==='projects') return abrirProjetos();
+  if (secao==='dashboard') return abrirDashboard();
 
   const labels={
     blueprints:'Blueprints',
