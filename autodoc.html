@@ -7,1018 +7,319 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #f4f5f7;
-    --sidebar-bg: #1a1d2e;
-    --sidebar-active: #252840;
-    --sidebar-text: #8b8fa8;
-    --sidebar-text-active: #ffffff;
-    --accent: #c0392b;
-    --accent-hover: #a93226;
-    --white: #ffffff;
-    --card-bg: #ffffff;
-    --text-primary: #1a1d2e;
-    --text-secondary: #6b7280;
-    --text-muted: #9ca3af;
-    --border: #e5e7eb;
-    --green: #10b981;
-    --red: #ef4444;
-    --yellow: #f59e0b;
-    --blue: #3b82f6;
-    --badge-exec-bg: #dcfce7;
-    --badge-exec-text: #166534;
-    --badge-urgent-bg: #c0392b;
-    --badge-urgent-text: #ffffff;
-    --badge-rev-bg: #fef9c3;
-    --badge-rev-text: #854d0e;
-    --status-exec-bg: #dcfce7;
-    --status-exec-text: #166534;
-    --status-rev-bg: #fef9c3;
-    --status-rev-text: #854d0e;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
-    --shadow-md: 0 4px 24px rgba(0,0,0,.10);
-    --font: 'Sora', sans-serif;
-    --mono: 'DM Mono', monospace;
-  }
-
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text-primary);
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: 220px;
-    min-width: 220px;
-    background: var(--sidebar-bg);
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-
-  .sidebar-brand {
-    padding: 24px 20px 20px;
-    border-bottom: 1px solid rgba(255,255,255,.06);
-  }
-
-  .sidebar-brand h1 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: -.3px;
-  }
-
-  .sidebar-brand .site-tag {
-    display: inline-block;
-    margin-top: 4px;
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--sidebar-text);
-    letter-spacing: .8px;
-    text-transform: uppercase;
-  }
-
-  .sidebar-nav {
-    flex: 1;
-    padding: 16px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    color: var(--sidebar-text);
-    font-size: 13.5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background .15s, color .15s;
-    text-decoration: none;
-  }
-
-  .nav-item:hover { background: rgba(255,255,255,.05); color: var(--white); }
-  .nav-item.active { background: var(--sidebar-active); color: var(--white); }
-
-  .nav-item svg { flex-shrink: 0; opacity: .75; }
-  .nav-item.active svg { opacity: 1; }
-
-  .sidebar-bottom {
-    padding: 12px 12px 20px;
-    border-top: 1px solid rgba(255,255,255,.06);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .btn-new-project-sidebar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: var(--accent);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 11px 14px;
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: background .15s;
-  }
-
-  .btn-new-project-sidebar:hover { background: var(--accent-hover); }
-
-  /* ── MAIN ── */
-  .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* ── TOPBAR ── */
-  .topbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 0 28px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-shrink: 0;
-  }
-
-  .topbar-logo {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -.4px;
-    margin-right: 8px;
-  }
-
-  .search-bar {
-    flex: 1;
-    max-width: 400px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0 14px;
-    height: 38px;
-  }
-
-  .search-bar input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--text-primary);
-    outline: none;
-  }
-
-  .search-bar input::placeholder { color: var(--text-muted); }
-
-  .topbar-spacer { flex: 1; }
-
-  .topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .icon-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-    transition: background .15s;
-  }
-
-  .icon-btn:hover { background: #e9eaec; }
-
-  .notif-dot {
-    position: absolute;
-    top: 6px; right: 7px;
-    width: 7px; height: 7px;
-    background: var(--accent);
-    border-radius: 50%;
-    border: 1.5px solid var(--white);
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-  }
-
-  .user-info .details { text-align: right; }
-  .user-info .name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-  .user-info .role { font-size: 10.5px; font-weight: 500; color: var(--text-muted); letter-spacing: .5px; text-transform: uppercase; }
-
-  .avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; color: white;
-  }
-
-  /* ── CONTENT ── */
-  .content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 28px 28px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  /* ── PAGE HEADER ── */
-  .page-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-
-  .page-header h2 {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -.5px;
-    color: var(--text-primary);
-  }
-
-  .page-header p {
-    margin-top: 4px;
-    font-size: 13.5px;
-    color: var(--text-secondary);
-  }
-
-  .page-header p strong {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .btn-primary {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--accent);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 11px 20px;
-    font-family: var(--font);
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .15s, transform .1s;
-    white-space: nowrap;
-  }
-
-  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
-
-  /* ── FEATURED PROJECT ── */
-  .featured-row {
-    display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 20px;
-  }
-
-  .featured-card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 200px 1fr;
-  }
-
-  .featured-img {
-    position: relative;
-    background: #1a1d2e;
-    overflow: hidden;
-  }
-
-  .featured-img img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: .7;
-  }
-
-  .featured-img .img-placeholder {
-    width: 100%; height: 100%;
-    background: linear-gradient(160deg, #1a1d2e 0%, #2d3361 60%, #1a1d2e 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 16px;
-  }
-
-  .featured-img .img-placeholder .building-svg {
-    width: 80px;
-    opacity: .55;
-    margin-bottom: 8px;
-  }
-
-  .img-label {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,.4);
-    text-transform: uppercase;
-  }
-
-  .badge-urgent {
-    position: absolute;
-    top: 12px; left: 12px;
-    background: var(--accent);
-    color: var(--white);
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    padding: 4px 9px;
-    border-radius: 4px;
-  }
-
-  .featured-body {
-    padding: 22px 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .featured-body .project-id {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-muted);
-    background: var(--bg);
-    padding: 3px 8px;
-    border-radius: 4px;
-    float: right;
-  }
-
-  .featured-body h3 {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -.4px;
-    color: var(--text-primary);
-    margin-top: 2px;
-    clear: both;
-  }
-
-  .featured-body p {
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .progress-section {
-    margin-top: 16px;
-  }
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .6px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 7px;
-  }
-
-  .progress-label span:last-child { color: var(--text-primary); }
-
-  .progress-bar {
-    width: 100%;
-    height: 6px;
-    background: var(--border);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    border-radius: 99px;
-    background: linear-gradient(90deg, #3b82f6, #6366f1);
-  }
-
-  .featured-footer {
-    margin-top: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .team-avatars {
-    display: flex;
-    align-items: center;
-  }
-
-  .team-avatars .t-avatar {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 2px solid var(--white);
-    margin-left: -7px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: white;
-  }
-
-  .team-avatars .t-avatar:first-child { margin-left: 0; }
-
-  .team-avatars .t-avatar.extra {
-    background: #e5e7eb;
-    color: var(--text-secondary);
-    font-size: 9.5px;
-  }
-
-  .btn-details {
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 7px 16px;
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: border-color .15s, background .15s;
-  }
-
-  .btn-details:hover { border-color: #9ca3af; background: var(--bg); }
-
-  /* ── STATUS PANEL ── */
-  .status-panel {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .status-panel h4 {
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 14px;
-  }
-
-  .status-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .status-item:last-of-type { border-bottom: none; }
-
-  .status-dot-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-
-  .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .dot.green { background: var(--green); }
-  .dot.red { background: var(--red); }
-  .dot.yellow { background: var(--yellow); }
-
-  .status-count {
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-
-  .weekly-report-box {
-    margin-top: 14px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .weekly-report-box .report-icon {
-    width: 20px; height: 20px;
-    background: #3b82f6;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .weekly-report-box .report-title {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: #1e40af;
-  }
-
-  .weekly-report-box .report-desc {
-    font-size: 11.5px;
-    color: #3b82f6;
-    margin-top: 2px;
-    line-height: 1.5;
-  }
-
-  /* ── OBRA LIST ── */
-  .obra-section {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-
-  .obra-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .obra-header h3 {
-    font-size: 15.5px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -.3px;
-  }
-
-  .view-toggles {
-    display: flex;
-    gap: 4px;
-  }
-
-  .view-btn {
-    width: 32px; height: 32px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: background .15s, color .15s;
-  }
-
-  .view-btn.active, .view-btn:hover { background: var(--bg); color: var(--text-primary); }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead tr {
-    background: var(--bg);
-  }
-
-  thead th {
-    padding: 10px 20px;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-align: left;
-  }
-
-  tbody tr {
-    border-top: 1px solid var(--border);
-    transition: background .12s;
-  }
-
-  tbody tr:hover { background: #fafafa; }
-
-  tbody td {
-    padding: 14px 20px;
-    font-size: 13px;
-    vertical-align: middle;
-  }
-
-  .project-cell {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .proj-thumb {
-    width: 38px; height: 38px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #374151, #1f2937);
-    flex-shrink: 0;
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .proj-thumb svg { opacity: .5; }
-
-  .proj-info .proj-name {
-    font-weight: 600;
-    font-size: 13.5px;
-    color: var(--text-primary);
-  }
-
-  .proj-info .proj-doc {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
-
-  .location-cell {
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-
-  .manager-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .m-avatar {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .m-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: .5px;
-    text-transform: uppercase;
-  }
-
-  .status-badge.exec { background: var(--status-exec-bg); color: var(--status-exec-text); }
-  .status-badge.urgent { background: var(--badge-urgent-bg); color: var(--badge-urgent-text); }
-  .status-badge.rev { background: var(--status-rev-bg); color: var(--status-rev-text); }
-
-  .doc-progress {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .doc-bar {
-    width: 80px; height: 5px;
-    background: var(--border);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-
-  .doc-fill {
-    height: 100%;
-    border-radius: 99px;
-  }
-
-  .doc-fill.blue { background: var(--blue); }
-  .doc-fill.red { background: var(--red); }
-  .doc-fill.yellow { background: var(--yellow); }
-
-  .doc-pct {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--text-secondary);
-  }
-
-  .action-btn {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    background: none;
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: background .12s;
-  }
-
-  .action-btn:hover { background: var(--bg); color: var(--text-primary); }
-
-  .pagination-row {
-    padding: 14px 20px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .pagination-info {
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: .3px;
-    text-transform: uppercase;
-  }
-
-  .pagination-btns {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .page-btn {
-    width: 30px; height: 30px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: none;
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .12s;
-  }
-
-  .page-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-  .page-btn:hover:not(.active) { background: var(--bg); }
-
-  /* ── BOTTOM WIDGETS ── */
-  .widgets-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-  }
-
-  .widget-card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    border: 1.5px dashed var(--border);
-    cursor: pointer;
-    transition: border-color .15s, box-shadow .15s;
-  }
-
-  .widget-card:hover { border-color: #9ca3af; box-shadow: var(--shadow-md); }
-
-  .widget-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .widget-title {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -.2px;
-  }
-
-  .widget-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .widget-card.dark {
-    background: #1a1d2e;
-    border: none;
-    border: 1.5px solid #252840;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .widget-card.dark .widget-title { color: #93c5fd; }
-  .widget-card.dark .widget-desc { color: #6b7280; }
-
-  .btn-alert {
-    margin-top: 8px;
-    background: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    padding: 8px 16px;
-    font-family: var(--font);
-    font-size: 12.5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .15s;
-    align-self: flex-start;
-  }
-
-  .btn-alert:hover { background: #2563eb; }
-
-  .widget-card.map-widget {
-    background: #1a1d2e;
-    border: none;
-    border: 1.5px solid #252840;
-    padding: 0;
-    overflow: hidden;
-    display: block;
-    align-items: unset;
-    gap: 0;
-    text-align: unset;
-    position: relative;
-  }
-
-  .map-preview {
-    width: 100%;
-    height: 130px;
-    background: linear-gradient(160deg, #1e2a3a, #243447);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .map-grid {
-    position: absolute;
-    inset: 0;
-    opacity: .12;
-    background-image:
-      linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-
-  .map-br-shape {
-    fill: rgba(255,255,255,.06);
-    stroke: rgba(255,255,255,.18);
-    stroke-width: .8;
-  }
-
-  .map-open-btn {
-    position: absolute;
-    bottom: 8px; right: 8px;
-    background: rgba(0,0,0,.5);
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255,255,255,.15);
-    color: white;
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-family: var(--font);
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .map-header {
-    padding: 14px 16px 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .map-header span {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: white;
-  }
-
-  .map-header button {
-    width: 22px; height: 22px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
+    --bg:#f4f5f7; --sidebar-bg:#1a1d2e; --sidebar-active:#252840; --sidebar-text:#8b8fa8;
+    --white:#fff; --card-bg:#fff; --text-primary:#1a1d2e; --text-secondary:#6b7280; --text-muted:#9ca3af;
+    --border:#e5e7eb; --green:#10b981; --red:#ef4444; --yellow:#f59e0b; --blue:#3b82f6;
+    --accent:#c0392b; --accent-hover:#a93226;
+    --exec-bg:#dcfce7; --exec-text:#166534; --rev-bg:#fef9c3; --rev-text:#854d0e;
+    --radius:12px; --radius-sm:8px;
+    --shadow:0 1px 3px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);
+    --shadow-md:0 4px 24px rgba(0,0,0,.1);
+    --font:'Sora',sans-serif; --mono:'DM Mono',monospace;
+  }
+  body { font-family:var(--font); background:var(--bg); color:var(--text-primary); display:flex; height:100vh; overflow:hidden; }
+
+  /* SIDEBAR */
+  .sidebar { width:220px; min-width:220px; background:var(--sidebar-bg); display:flex; flex-direction:column; height:100vh; overflow-y:auto; }
+  .sidebar-brand { padding:24px 20px 20px; border-bottom:1px solid rgba(255,255,255,.06); }
+  .sidebar-brand h1 { font-size:15px; font-weight:700; color:#fff; letter-spacing:-.3px; }
+  .site-tag { display:inline-block; margin-top:4px; font-size:10px; font-weight:500; color:var(--sidebar-text); letter-spacing:.8px; text-transform:uppercase; }
+  .sidebar-nav { flex:1; padding:16px 12px; display:flex; flex-direction:column; gap:2px; }
+  .nav-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:var(--radius-sm); color:var(--sidebar-text); font-size:13.5px; font-weight:500; cursor:pointer; transition:background .15s,color .15s; text-decoration:none; }
+  .nav-item:hover { background:rgba(255,255,255,.05); color:#fff; }
+  .nav-item.active { background:var(--sidebar-active); color:#fff; }
+  .nav-item svg { flex-shrink:0; opacity:.75; }
+  .nav-item.active svg { opacity:1; }
+  .sidebar-bottom { padding:12px 12px 20px; border-top:1px solid rgba(255,255,255,.06); display:flex; flex-direction:column; gap:2px; }
+  .btn-new-sidebar { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--accent); color:#fff; border:none; border-radius:var(--radius-sm); padding:11px 14px; font-family:var(--font); font-size:13px; font-weight:600; cursor:pointer; margin-bottom:10px; transition:background .15s; }
+  .btn-new-sidebar:hover { background:var(--accent-hover); }
+
+  /* TOPBAR */
+  .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+  .topbar { background:#fff; border-bottom:1px solid var(--border); padding:0 28px; height:60px; display:flex; align-items:center; gap:16px; flex-shrink:0; }
+  .topbar-logo { font-size:17px; font-weight:700; letter-spacing:-.4px; margin-right:8px; }
+  .search-bar { flex:1; max-width:400px; display:flex; align-items:center; gap:8px; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:0 14px; height:38px; transition:border-color .15s; }
+  .search-bar:focus-within { border-color:var(--blue); }
+  .search-bar input { flex:1; border:none; background:transparent; font-family:var(--font); font-size:13px; outline:none; color:var(--text-primary); }
+  .search-bar input::placeholder { color:var(--text-muted); }
+  .topbar-spacer { flex:1; }
+  .topbar-actions { display:flex; align-items:center; gap:12px; }
+  .icon-btn { width:36px; height:36px; border-radius:50%; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; transition:background .15s; }
+  .icon-btn:hover { background:#e9eaec; }
+  .notif-dot { position:absolute; top:6px; right:7px; width:7px; height:7px; background:var(--accent); border-radius:50%; border:1.5px solid #fff; }
+  .user-info { display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .user-info .details { text-align:right; }
+  .user-name { font-size:13px; font-weight:600; }
+  .user-role { font-size:10.5px; font-weight:500; color:var(--text-muted); letter-spacing:.5px; text-transform:uppercase; }
+  .avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#667eea,#764ba2); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#fff; }
+
+  /* CONTENT */
+  .content { flex:1; overflow-y:auto; padding:28px 28px 40px; display:flex; flex-direction:column; gap:24px; }
+  .page-header { display:flex; align-items:flex-start; justify-content:space-between; }
+  .page-header h2 { font-size:26px; font-weight:700; letter-spacing:-.5px; }
+  .page-header p { margin-top:4px; font-size:13.5px; color:var(--text-secondary); }
+  .page-header p strong { color:var(--text-primary); font-weight:600; }
+  .btn-primary { display:flex; align-items:center; gap:7px; background:var(--accent); color:#fff; border:none; border-radius:var(--radius-sm); padding:11px 20px; font-family:var(--font); font-size:13.5px; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; white-space:nowrap; }
+  .btn-primary:hover { background:var(--accent-hover); transform:translateY(-1px); }
+
+  /* FEATURED */
+  .featured-row { display:grid; grid-template-columns:1fr 260px; gap:20px; }
+  .featured-card { background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; display:grid; grid-template-columns:200px 1fr; }
+  .featured-img { position:relative; background:#1a1d2e; overflow:hidden; }
+  .img-placeholder { width:100%; height:100%; background:linear-gradient(160deg,#1a1d2e 0%,#2d3361 60%,#1a1d2e 100%); display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:16px; }
+  .building-svg { width:80px; opacity:.55; margin-bottom:8px; }
+  .img-label { font-size:9px; letter-spacing:1.5px; color:rgba(255,255,255,.4); text-transform:uppercase; }
+  .badge-urgent { position:absolute; top:12px; left:12px; background:var(--accent); color:#fff; font-size:9.5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; padding:4px 9px; border-radius:4px; }
+  .featured-body { padding:22px 24px; display:flex; flex-direction:column; justify-content:space-between; }
+  .project-id { font-family:var(--mono); font-size:11px; color:var(--text-muted); background:var(--bg); padding:3px 8px; border-radius:4px; float:right; }
+  .featured-body h3 { font-size:20px; font-weight:700; letter-spacing:-.4px; margin-top:2px; clear:both; }
+  .featured-body p { margin-top:8px; font-size:13px; color:var(--text-secondary); line-height:1.6; }
+  .progress-section { margin-top:16px; }
+  .progress-label { display:flex; justify-content:space-between; font-size:11px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--text-muted); margin-bottom:7px; }
+  .progress-label span:last-child { color:var(--text-primary); }
+  .progress-bar { width:100%; height:6px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,#3b82f6,#6366f1); }
+  .featured-footer { margin-top:16px; display:flex; align-items:center; justify-content:space-between; }
+  .team-avatars { display:flex; align-items:center; }
+  .t-avatar { width:28px; height:28px; border-radius:50%; border:2px solid #fff; margin-left:-7px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
+  .t-avatar:first-child { margin-left:0; }
+  .t-avatar.extra { background:#e5e7eb; color:var(--text-secondary); font-size:9.5px; }
+  .btn-details { background:none; border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:7px 16px; font-family:var(--font); font-size:13px; font-weight:600; cursor:pointer; transition:border-color .15s,background .15s; }
+  .btn-details:hover { border-color:#9ca3af; background:var(--bg); }
+
+  /* STATUS PANEL */
+  .status-panel { background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; display:flex; flex-direction:column; }
+  .status-panel h4 { font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px; }
+  .status-item { display:flex; align-items:center; justify-content:space-between; padding:10px 8px; border-bottom:1px solid var(--border); cursor:pointer; border-radius:6px; transition:background .12s; }
+  .status-item:hover { background:var(--bg); }
+  .status-item.active-filter { background:#eff6ff; }
+  .status-item:last-of-type { border-bottom:none; }
+  .status-dot-label { display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:500; }
+  .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .dot.green{background:var(--green);} .dot.red{background:var(--red);} .dot.yellow{background:var(--yellow);}
+  .status-count { font-family:var(--mono); font-size:14px; font-weight:500; }
+  .weekly-report-box { margin-top:14px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:var(--radius-sm); padding:12px 14px; display:flex; gap:10px; align-items:flex-start; cursor:pointer; transition:background .15s; }
+  .weekly-report-box:hover { background:#dbeafe; }
+  .report-icon { width:20px; height:20px; background:#3b82f6; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .report-title { font-size:12.5px; font-weight:600; color:#1e40af; }
+  .report-desc { font-size:11.5px; color:#3b82f6; margin-top:2px; line-height:1.5; }
+
+  /* TABELA */
+  .obra-section { background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .obra-header { padding:18px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .obra-header h3 { font-size:15.5px; font-weight:700; letter-spacing:-.3px; }
+  .view-toggles { display:flex; gap:4px; }
+  .view-btn { width:32px; height:32px; border:1px solid var(--border); border-radius:6px; background:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text-muted); transition:background .15s,color .15s; }
+  .view-btn.active,.view-btn:hover { background:var(--bg); color:var(--text-primary); }
+  table { width:100%; border-collapse:collapse; }
+  thead tr { background:var(--bg); }
+  thead th { padding:10px 20px; font-size:10.5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--text-muted); text-align:left; }
+  tbody tr { border-top:1px solid var(--border); transition:background .12s; }
+  tbody tr:hover { background:#fafafa; }
+  tbody td { padding:14px 20px; font-size:13px; vertical-align:middle; }
+  .project-cell { display:flex; align-items:center; gap:12px; }
+  .proj-thumb { width:38px; height:38px; border-radius:8px; background:linear-gradient(135deg,#374151,#1f2937); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .proj-name { font-weight:600; font-size:13.5px; }
+  .proj-doc { font-family:var(--mono); font-size:10.5px; color:var(--text-muted); margin-top:2px; }
+  .location-cell { font-size:13px; color:var(--text-secondary); }
+  .manager-cell { display:flex; align-items:center; gap:8px; }
+  .m-avatar { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; }
+  .m-name { font-size:13px; font-weight:500; }
+  .status-badge { display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; }
+  .status-badge.exec { background:var(--exec-bg); color:var(--exec-text); }
+  .status-badge.urgent { background:var(--accent); color:#fff; }
+  .status-badge.rev { background:var(--rev-bg); color:var(--rev-text); }
+  .doc-progress { display:flex; align-items:center; gap:8px; }
+  .doc-bar { width:80px; height:5px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .doc-fill { height:100%; border-radius:99px; }
+  .doc-fill.blue{background:var(--blue);} .doc-fill.red{background:var(--red);} .doc-fill.yellow{background:var(--yellow);}
+  .doc-pct { font-family:var(--mono); font-size:11.5px; color:var(--text-secondary); }
+  .action-btn { width:28px; height:28px; border-radius:6px; background:none; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text-muted); transition:background .12s; }
+  .action-btn:hover { background:var(--bg); color:var(--text-primary); }
+  .pagination-row { padding:14px 20px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .pagination-info { font-size:12px; color:var(--text-muted); letter-spacing:.3px; text-transform:uppercase; }
+  .pagination-btns { display:flex; align-items:center; gap:4px; }
+  .page-btn { width:30px; height:30px; border-radius:6px; border:1px solid var(--border); background:none; font-family:var(--font); font-size:13px; font-weight:500; color:var(--text-secondary); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .12s; }
+  .page-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .page-btn:hover:not(.active) { background:var(--bg); }
+  .page-btn:disabled { opacity:.4; cursor:default; }
+  mark.hl { background:#fef08a; border-radius:2px; padding:0 1px; font-style:normal; }
+
+  /* WIDGETS */
+  .widgets-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+  .widget-card { background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; border:1.5px dashed var(--border); cursor:pointer; transition:border-color .15s,box-shadow .15s,transform .15s; }
+  .widget-card:hover { border-color:#9ca3af; box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .widget-icon { width:44px; height:44px; border-radius:12px; background:var(--bg); display:flex; align-items:center; justify-content:center; }
+  .widget-title { font-size:13.5px; font-weight:700; color:var(--accent); letter-spacing:-.2px; }
+  .widget-desc { font-size:12px; color:var(--text-muted); line-height:1.5; }
+  .widget-card.dark { background:#1a1d2e; border:1.5px solid #252840; align-items:flex-start; text-align:left; }
+  .widget-card.dark .widget-title { color:#93c5fd; }
+  .widget-card.dark .widget-desc { color:#6b7280; }
+  .btn-alert { margin-top:8px; background:#3b82f6; color:#fff; border:none; border-radius:7px; padding:8px 16px; font-family:var(--font); font-size:12.5px; font-weight:600; cursor:pointer; transition:background .15s; align-self:flex-start; }
+  .btn-alert:hover { background:#2563eb; }
+  .map-widget { background:#1a1d2e!important; border:1.5px solid #252840!important; padding:0!important; overflow:hidden; display:block!important; text-align:unset!important; }
+  .map-preview { width:100%; height:130px; background:linear-gradient(160deg,#1e2a3a,#243447); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .map-grid { position:absolute; inset:0; opacity:.12; background-image:linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.3) 1px,transparent 1px); background-size:28px 28px; }
+  .map-br { fill:rgba(255,255,255,.06); stroke:rgba(255,255,255,.18); stroke-width:.8; }
+  .map-open-btn { position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,.5); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,.15); color:#fff; border-radius:6px; padding:5px 10px; font-family:var(--font); font-size:11px; font-weight:600; cursor:pointer; }
+  .map-header { padding:14px 16px 12px; display:flex; align-items:center; justify-content:space-between; }
+  .map-header span { font-size:13.5px; font-weight:700; color:#fff; }
+  .map-header button { width:22px; height:22px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.1); border-radius:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,.5); backdrop-filter:blur(5px); align-items:center; justify-content:center; }
+  .modal-box { background:#fff; border-radius:16px; padding:32px; width:100%; position:relative; box-shadow:0 24px 64px rgba(0,0,0,.22); }
+  .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer; color:#9ca3af; font-size:20px; line-height:1; }
+  .modal-close:hover { color:var(--text-primary); }
+  .modal-title { font-family:var(--font); font-size:18px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px; }
+  .modal-sub { font-size:13px; color:var(--text-muted); margin-bottom:24px; }
+  .field-label { font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:6px; }
+  .field-input { width:100%; height:42px; border:1.5px solid var(--border); border-radius:9px; padding:0 14px; font-family:var(--font); font-size:13.5px; color:var(--text-primary); outline:none; transition:border-color .15s; }
+  .field-input:focus { border-color:var(--blue); }
+  .field-textarea { width:100%; height:80px; border:1.5px solid var(--border); border-radius:9px; padding:10px 14px; font-family:var(--font); font-size:13.5px; color:var(--text-primary); outline:none; resize:none; transition:border-color .15s; }
+  .field-textarea:focus { border-color:var(--blue); }
+  .error-box { display:none; font-size:12.5px; color:#ef4444; background:#fef2f2; border:1px solid #fecaca; border-radius:7px; padding:9px 12px; }
+  .modal-actions { display:flex; gap:10px; margin-top:24px; }
+  .btn-cancel { flex:1; height:42px; border:1.5px solid var(--border); border-radius:9px; background:none; font-family:var(--font); font-size:13.5px; font-weight:600; color:var(--text-secondary); cursor:pointer; }
+  .btn-confirm { flex:2; height:42px; border:none; border-radius:9px; font-family:var(--font); font-size:13.5px; font-weight:700; color:#fff; cursor:pointer; transition:opacity .15s; }
+  .btn-confirm:hover { opacity:.88; }
+  .btn-confirm:disabled { opacity:.5; cursor:default; }
+
+  /* CONTEXT MENU */
+  #ctx-menu { display:none; position:fixed; z-index:3000; background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,.14); padding:6px; min-width:185px; }
+  .ctx-btn { width:100%; display:flex; align-items:center; gap:9px; padding:9px 12px; border:none; background:none; border-radius:7px; font-family:var(--font); font-size:13px; font-weight:500; color:var(--text-primary); cursor:pointer; text-align:left; }
+  .ctx-btn:hover { background:var(--bg); }
+  .ctx-btn.danger { color:#ef4444; }
+  .ctx-btn.danger:hover { background:#fef2f2; }
+  .ctx-divider { height:1px; background:var(--border); margin:4px 0; }
+
+  /* NOTIF PANEL */
+  #notif-panel { display:none; position:fixed; z-index:2500; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,.16); width:320px; overflow:hidden; }
+  .notif-header { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .notif-header span { font-size:13.5px; font-weight:700; }
+  .notif-mark-all { font-size:11.5px; color:var(--blue); font-weight:600; cursor:pointer; border:none; background:none; font-family:var(--font); }
+  .notif-item { padding:12px 16px; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start; cursor:pointer; transition:background .12s; }
+  .notif-item:hover { background:var(--bg); }
+  .notif-item:last-child { border-bottom:none; }
+  .notif-item.unread { background:#eff6ff; }
+  .notif-item.unread:hover { background:#dbeafe; }
+  .ndot { width:8px; height:8px; border-radius:50%; background:var(--blue); flex-shrink:0; margin-top:5px; }
+  .ndot.read { background:transparent; border:1.5px solid var(--border); }
+  .notif-text { font-size:12.5px; color:var(--text-secondary); line-height:1.5; }
+  .notif-text strong { color:var(--text-primary); font-weight:600; }
+  .notif-time { font-size:10.5px; color:var(--text-muted); margin-top:3px; font-family:var(--mono); }
+
+  /* DROP ZONE */
+  .drop-zone { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; border:2px dashed var(--border); border-radius:10px; padding:28px 16px; cursor:pointer; transition:border-color .15s,background .15s; background:var(--bg); }
+  .drop-zone:hover,.drop-zone.over { border-color:var(--blue); background:#eff6ff; }
+
+  /* FILE LIST */
+  .file-item { display:flex; align-items:center; gap:12px; padding:10px 12px; border:1px solid var(--border); border-radius:9px; transition:background .12s; }
+  .file-item:hover { background:var(--bg); }
+  .file-ext { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .file-dl { width:30px; height:30px; border-radius:7px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--text-muted); text-decoration:none; flex-shrink:0; transition:background .12s; }
+  .file-dl:hover { background:var(--bg); color:var(--text-primary); }
+
+  /* ALERTS */
+  .alert-item { padding:12px 14px; border-radius:9px; }
+  .alert-item.red { background:#fef2f2; border:1px solid #fecaca; }
+  .alert-item.yellow { background:#fef9c3; border:1px solid #fde047; }
+  .alert-title { font-size:13px; font-weight:600; }
+  .alert-item.red .alert-title { color:#991b1b; }
+  .alert-item.yellow .alert-title { color:#854d0e; }
+  .alert-desc { font-size:12px; margin-top:3px; }
+  .alert-item.red .alert-desc { color:#b91c1c; }
+  .alert-item.yellow .alert-desc { color:#92400e; }
+
+  /* FILTER BADGE */
+  #filter-badge { display:none; font-size:11px; background:var(--blue); color:#fff; padding:3px 9px; border-radius:99px; font-weight:600; cursor:pointer; }
+
+  @keyframes spin    { to{transform:rotate(360deg);} }
+  @keyframes slideIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
+<!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
   <div class="sidebar-brand">
     <h1>AutoDoc Central</h1>
     <span class="site-tag">Active: Site B-12</span>
   </div>
-  <nav class="sidebar-nav">
-    <a href="#" class="nav-item">
+  <nav class="sidebar-nav" id="sidebar-nav">
+    <a href="#" class="nav-item" data-section="dashboard">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a href="#" class="nav-item active">
+    <a href="#" class="nav-item active" data-section="projects">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Projects
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" data-section="blueprints">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
       Blueprints
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" data-section="fieldlogs">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Field Logs
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" data-section="settings">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       Settings
     </a>
   </nav>
   <div class="sidebar-bottom">
-    <button class="btn-new-project-sidebar">
+    <button class="btn-new-sidebar" id="btn-new-sidebar">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       New Project
     </button>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" id="nav-support">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       Support
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" id="nav-signout">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Sign Out
     </a>
   </div>
 </aside>
 
-<!-- MAIN -->
+<!-- ══ MAIN ══ -->
 <div class="main">
-
-  <!-- TOPBAR -->
   <header class="topbar">
     <span class="topbar-logo">AutoDoc</span>
     <div class="search-bar">
       <svg width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" placeholder="Pesquisar projetos, documentos ou equipes...">
+      <input id="search-input" type="text" placeholder="Pesquisar projetos, documentos ou equipes...">
     </div>
     <div class="topbar-spacer"></div>
     <div class="topbar-actions">
-      <div class="icon-btn">
+      <div class="icon-btn" id="btn-notif" title="Notificações">
         <svg width="15" height="15" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        <span class="notif-dot"></span>
+        <span class="notif-dot" id="notif-dot"></span>
       </div>
-      <div class="icon-btn">
+      <div class="icon-btn" id="btn-help" title="Ajuda">
         <svg width="15" height="15" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </div>
-      <div class="user-info">
+      <div class="user-info" id="user-info" title="Clique para entrar">
         <div class="details">
-          <div class="name">Ricardo Almeida</div>
-          <div class="role">Project Manager</div>
+          <div class="user-name" id="user-name">Fazer Login</div>
+          <div class="user-role" id="user-role"></div>
         </div>
-        <div class="avatar">RA</div>
+        <div class="avatar" id="user-avatar">?</div>
       </div>
     </div>
   </header>
 
-  <!-- CONTENT -->
   <main class="content">
-
     <!-- PAGE HEADER -->
     <div class="page-header">
       <div>
         <h2>Meus Projetos</h2>
-        <p>Você tem <strong>12 projetos ativos</strong> nesta unidade.</p>
+        <p>Você tem <strong id="total-obras">—</strong> obras ativas nesta unidade.</p>
       </div>
-      <button class="btn-primary">
+      <button class="btn-primary" id="btn-new-topbar">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Novo Projeto
       </button>
@@ -1026,12 +327,10 @@
 
     <!-- FEATURED + STATUS -->
     <div class="featured-row">
-
-      <!-- Featured Card -->
       <div class="featured-card">
         <div class="featured-img">
           <div class="img-placeholder">
-            <svg class="building-svg" viewBox="0 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="building-svg" viewBox="0 0 80 120" fill="none">
               <rect x="28" y="100" width="24" height="20" fill="rgba(255,255,255,.15)"/>
               <rect x="20" y="70" width="40" height="50" fill="rgba(255,255,255,.12)"/>
               <rect x="24" y="40" width="32" height="50" fill="rgba(255,255,255,.14)"/>
@@ -1051,17 +350,12 @@
           <div>
             <span class="project-id">ID: #8821</span>
             <h3>Residencial Aurora - Torre A</h3>
-            <p>Fase de fundação e infraestrutura hidráulica. Verificação pendente de documentação técni...</p>
+            <p>Fase de fundação e infraestrutura hidráulica. Verificação pendente de documentação técnica...</p>
           </div>
           <div>
             <div class="progress-section">
-              <div class="progress-label">
-                <span>Progresso da Obra</span>
-                <span>68%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width:68%"></div>
-              </div>
+              <div class="progress-label"><span>Progresso da Obra</span><span>68%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
             </div>
             <div class="featured-footer">
               <div class="team-avatars">
@@ -1069,28 +363,27 @@
                 <div class="t-avatar" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">F</div>
                 <div class="t-avatar extra">+4</div>
               </div>
-              <button class="btn-details">Ver Detalhes</button>
+              <button class="btn-details" id="btn-ver-detalhes">Ver Detalhes</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Status Panel -->
       <div class="status-panel">
         <h4>Status dos Projetos</h4>
-        <div class="status-item">
+        <div class="status-item" id="filter-exec" title="Filtrar por Em Execução">
           <div class="status-dot-label"><span class="dot green"></span>Em Execução</div>
-          <span class="status-count">08</span>
+          <span class="status-count" id="count-exec">—</span>
         </div>
-        <div class="status-item">
+        <div class="status-item" id="filter-urgent" title="Filtrar por Urgente">
           <div class="status-dot-label"><span class="dot red"></span>Crítico / Urgente</div>
-          <span class="status-count">02</span>
+          <span class="status-count" id="count-urgent">—</span>
         </div>
-        <div class="status-item">
+        <div class="status-item" id="filter-rev" title="Filtrar por Em Revisão">
           <div class="status-dot-label"><span class="dot yellow"></span>Em Revisão</div>
-          <span class="status-count">02</span>
+          <span class="status-count" id="count-rev">—</span>
         </div>
-        <div class="weekly-report-box">
+        <div class="weekly-report-box" id="btn-relatorio">
           <div class="report-icon">
             <svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12" stroke="white" stroke-width="2"/><line x1="12" y1="16" x2="12.01" y2="16" stroke="white" stroke-width="2"/></svg>
           </div>
@@ -1100,1258 +393,714 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- OBRA LIST -->
     <div class="obra-section">
       <div class="obra-header">
         <h3>Lista de Obras</h3>
-        <div class="view-toggles">
-          <button class="view-btn active">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          </button>
-          <button class="view-btn">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          </button>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span id="filter-badge">Filtro ativo ✕</span>
+          <div class="view-toggles">
+            <button class="view-btn active" id="view-grid" title="Grid">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </button>
+            <button class="view-btn" id="view-list" title="Lista">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
         </div>
       </div>
-
       <table>
         <thead>
           <tr>
             <th>Projeto / Obra</th>
-            <th>Localização</th>
+            <th>Descrição</th>
             <th>Gestor Responsável</th>
             <th>Status</th>
             <th>Documentação</th>
             <th>Ações</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Row 1 -->
-          <tr>
-            <td>
-              <div class="project-cell">
-                <div class="proj-thumb">
-                  <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                </div>
-                <div class="proj-info">
-                  <div class="proj-name">Complexo Corporate B3</div>
-                  <div class="proj-doc">DOC-559-2024</div>
-                </div>
-              </div>
-            </td>
-            <td class="location-cell">São Paulo, SP</td>
-            <td>
-              <div class="manager-cell">
-                <div class="m-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">MA</div>
-                <span class="m-name">Marcos Andrade</span>
-              </div>
-            </td>
-            <td><span class="status-badge exec">Em Execução</span></td>
-            <td>
-              <div class="doc-progress">
-                <div class="doc-bar"><div class="doc-fill blue" style="width:92%"></div></div>
-                <span class="doc-pct">92%</span>
-              </div>
-            </td>
-            <td>
-              <button class="action-btn">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-              </button>
-            </td>
-          </tr>
-          <!-- Row 2 -->
-          <tr>
-            <td>
-              <div class="project-cell">
-                <div class="proj-thumb" style="background:linear-gradient(135deg,#7f1d1d,#991b1b)">
-                  <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                </div>
-                <div class="proj-info">
-                  <div class="proj-name">Galpão Logístico E-Com</div>
-                  <div class="proj-doc">DOC-124-2024</div>
-                </div>
-              </div>
-            </td>
-            <td class="location-cell">Curitiba, PR</td>
-            <td>
-              <div class="manager-cell">
-                <div class="m-avatar" style="background:linear-gradient(135deg,#ef4444,#f97316)">FC</div>
-                <span class="m-name">Fernanda Costa</span>
-              </div>
-            </td>
-            <td><span class="status-badge urgent">Urgente</span></td>
-            <td>
-              <div class="doc-progress">
-                <div class="doc-bar"><div class="doc-fill red" style="width:45%"></div></div>
-                <span class="doc-pct">45%</span>
-              </div>
-            </td>
-            <td>
-              <button class="action-btn">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-              </button>
-            </td>
-          </tr>
-          <!-- Row 3 -->
-          <tr>
-            <td>
-              <div class="project-cell">
-                <div class="proj-thumb" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)">
-                  <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                </div>
-                <div class="proj-info">
-                  <div class="proj-name">Condomínio Terra Alta</div>
-                  <div class="proj-doc">DOC-981-2023</div>
-                </div>
-              </div>
-            </td>
-            <td class="location-cell">Belo Horizonte, MG</td>
-            <td>
-              <div class="manager-cell">
-                <div class="m-avatar" style="background:linear-gradient(135deg,#059669,#10b981)">RV</div>
-                <span class="m-name">Rodrigo Viana</span>
-              </div>
-            </td>
-            <td><span class="status-badge rev">Em Revisão</span></td>
-            <td>
-              <div class="doc-progress">
-                <div class="doc-bar"><div class="doc-fill yellow" style="width:78%"></div></div>
-                <span class="doc-pct">78%</span>
-              </div>
-            </td>
-            <td>
-              <button class="action-btn">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-              </button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody id="obras-tbody"></tbody>
       </table>
-
       <div class="pagination-row">
-        <span class="pagination-info">Mostrando 1-12 de 12 projetos</span>
+        <span class="pagination-info" id="pag-info">Carregando...</span>
         <div class="pagination-btns">
-          <button class="page-btn">‹</button>
-          <button class="page-btn active">1</button>
-          <button class="page-btn">›</button>
+          <button class="page-btn" id="btn-prev">‹</button>
+          <button class="page-btn active" id="btn-page">1</button>
+          <button class="page-btn" id="btn-next">›</button>
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM WIDGETS -->
+    <!-- WIDGETS -->
     <div class="widgets-row">
-
-      <!-- Import -->
-      <div class="widget-card">
+      <div class="widget-card" id="widget-import">
         <div class="widget-icon">
           <svg width="22" height="22" fill="none" stroke="#c0392b" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
         </div>
         <div class="widget-title">Importar em Massa</div>
         <div class="widget-desc">Arraste sua planilha de obras ou documentos .zip</div>
       </div>
-
-      <!-- AI Alert -->
-      <div class="widget-card dark">
+      <div class="widget-card dark" id="widget-ai">
         <div style="width:100%">
           <div style="font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#4b5563;font-weight:600;margin-bottom:8px">Análise de IA</div>
           <div class="widget-title" style="font-size:14px">Análise de IA</div>
           <div class="widget-desc" style="margin-top:6px">Identificamos 4 inconsistências nos alvarás da Torre A.</div>
-          <button class="btn-alert">Ver Alertas</button>
+          <button class="btn-alert" id="btn-ver-alertas">Ver Alertas</button>
         </div>
       </div>
-
-      <!-- Map -->
-      <div class="widget-card map-widget">
+      <div class="widget-card map-widget" id="widget-map">
         <div class="map-header">
           <span>Mapa de Obras</span>
-          <button>
+          <button id="btn-expand-map" title="Expandir">
             <svg width="10" height="10" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
           </button>
         </div>
         <div class="map-preview">
           <div class="map-grid"></div>
           <svg width="160" height="100" viewBox="0 0 160 100">
-            <!-- Simplified Brazil outline shape -->
-            <path class="map-br-shape" d="M80 10 L110 15 L130 30 L140 50 L135 70 L120 85 L100 90 L80 88 L60 85 L45 70 L40 50 L50 30 L70 15 Z"/>
+            <path class="map-br" d="M80 10 L110 15 L130 30 L140 50 L135 70 L120 85 L100 90 L80 88 L60 85 L45 70 L40 50 L50 30 L70 15 Z"/>
             <circle cx="95" cy="55" r="4" fill="#ef4444" opacity=".9"/>
             <circle cx="75" cy="65" r="4" fill="#ef4444" opacity=".9"/>
             <circle cx="85" cy="45" r="4" fill="#10b981" opacity=".9"/>
           </svg>
-          <button class="map-open-btn">Abrir Geolocalização</button>
+          <button class="map-open-btn" id="btn-geo">Abrir Geolocalização</button>
         </div>
       </div>
-
     </div>
-
   </main>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: LOGIN
-══════════════════════════════════════════ -->
-<div id="modal-login" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:18px;padding:36px;width:100%;max-width:420px;box-shadow:0 32px 80px rgba(0,0,0,.25);position:relative;">
+<!-- ══ MODAL LOGIN ══ -->
+<div class="modal-overlay" id="modal-login" style="z-index:2000;">
+  <div class="modal-box" style="max-width:420px;">
     <div style="text-align:center;margin-bottom:28px;">
-      <div style="font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:-.5px;font-family:var(--font);">AutoDoc Central</div>
+      <div style="font-size:22px;font-weight:700;letter-spacing:-.5px;">AutoDoc Central</div>
       <div style="font-size:13px;color:var(--text-muted);margin-top:5px;">Entre na sua conta para continuar</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">E-mail</label>
-        <input id="login-email" type="email" placeholder="seu@email.com"
-          style="width:100%;height:42px;border:1.5px solid var(--border);border-radius:9px;padding:0 14px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'"
-          onkeydown="if(event.key==='Enter')fazerLogin()">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Senha</label>
-        <input id="login-senha" type="password" placeholder="••••••••"
-          style="width:100%;height:42px;border:1.5px solid var(--border);border-radius:9px;padding:0 14px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'"
-          onkeydown="if(event.key==='Enter')fazerLogin()">
-      </div>
-      <div id="login-erro" style="display:none;font-size:12.5px;color:#ef4444;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:9px 12px;font-family:var(--font);"></div>
+      <div><label class="field-label">E-mail</label><input id="login-email" class="field-input" type="email" placeholder="seu@email.com"></div>
+      <div><label class="field-label">Senha</label><input id="login-senha" class="field-input" type="password" placeholder="••••••••"></div>
+      <div id="login-erro" class="error-box"></div>
     </div>
-    <button onclick="fazerLogin()" id="btn-login"
-      style="width:100%;height:44px;background:var(--accent);border:none;border-radius:9px;font-family:var(--font);font-size:14px;font-weight:700;color:#fff;cursor:pointer;margin-top:20px;transition:background .15s;"
-      onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">
-      Entrar
-    </button>
-    <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-muted);font-family:var(--font);">
-      Não tem conta?
-      <span onclick="abrirModalCadastro()" style="color:#3b82f6;font-weight:600;cursor:pointer;">Cadastre-se</span>
+    <button id="btn-fazer-login" class="btn-confirm" style="width:100%;height:44px;background:var(--accent);margin-top:20px;border-radius:9px;">Entrar</button>
+    <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-muted);">
+      Não tem conta? <span id="link-cadastro" style="color:#3b82f6;font-weight:600;cursor:pointer;">Cadastre-se</span>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: CADASTRO DE USUÁRIO  (POST /usuarios)
-══════════════════════════════════════════ -->
-<div id="modal-cadastro" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:18px;padding:32px;width:100%;max-width:440px;box-shadow:0 32px 80px rgba(0,0,0,.25);position:relative;">
-    <button onclick="fecharModalCadastro()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#9ca3af;font-size:20px;line-height:1;">✕</button>
-    <h3 style="font-family:var(--font);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:-.3px;margin-bottom:4px;">Criar Conta</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;font-family:var(--font);">Preencha os dados para criar seu acesso.</p>
+<!-- ══ MODAL CADASTRO ══ -->
+<div class="modal-overlay" id="modal-cadastro" style="z-index:2100;">
+  <div class="modal-box" style="max-width:440px;">
+    <button class="modal-close" id="close-cadastro">✕</button>
+    <p class="modal-title">Criar Conta</p>
+    <p class="modal-sub">Preencha os dados para criar seu acesso.</p>
     <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Nome completo *</label>
-        <input id="cad-nome" type="text" placeholder="Ex: Ricardo Almeida"
-          style="width:100%;height:42px;border:1.5px solid var(--border);border-radius:9px;padding:0 14px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">E-mail *</label>
-        <input id="cad-email" type="email" placeholder="seu@email.com"
-          style="width:100%;height:42px;border:1.5px solid var(--border);border-radius:9px;padding:0 14px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Senha *</label>
-        <input id="cad-senha" type="password" placeholder="Mínimo 6 caracteres"
-          style="width:100%;height:42px;border:1.5px solid var(--border);border-radius:9px;padding:0 14px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div id="cad-erro" style="display:none;font-size:12.5px;color:#ef4444;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:9px 12px;font-family:var(--font);"></div>
+      <div><label class="field-label">Nome completo *</label><input id="cad-nome" class="field-input" type="text" placeholder="Ex: Ricardo Almeida"></div>
+      <div><label class="field-label">E-mail *</label><input id="cad-email" class="field-input" type="email" placeholder="seu@email.com"></div>
+      <div><label class="field-label">Senha *</label><input id="cad-senha" class="field-input" type="password" placeholder="Mínimo 6 caracteres"></div>
+      <div id="cad-erro" class="error-box"></div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:24px;">
-      <button onclick="fecharModalCadastro()"
-        style="flex:1;height:42px;border:1.5px solid var(--border);border-radius:9px;background:none;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;">
-        Cancelar
-      </button>
-      <button onclick="cadastrarUsuario()"
-        style="flex:2;height:42px;background:#3b82f6;border:none;border-radius:9px;font-family:var(--font);font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;transition:background .15s;"
-        onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
-        Criar Conta
-      </button>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="close-cad2">Cancelar</button>
+      <button class="btn-confirm" id="btn-cadastrar" style="background:#3b82f6;">Criar Conta</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: NOVA OBRA  (POST /obras)
-══════════════════════════════════════════ -->
-<div id="modal-nova-obra" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;">
-    <button onclick="fecharModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#9ca3af;font-size:20px;line-height:1;">✕</button>
-    <h3 style="font-family:var(--font);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:-.3px;margin-bottom:6px;">Nova Obra</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;font-family:var(--font);">Preencha os dados para cadastrar uma nova obra.</p>
+<!-- ══ MODAL NOVA OBRA ══ -->
+<div class="modal-overlay" id="modal-nova-obra">
+  <div class="modal-box" style="max-width:460px;">
+    <button class="modal-close" id="close-obra">✕</button>
+    <p class="modal-title">Nova Obra</p>
+    <p class="modal-sub">Preencha os dados para cadastrar uma nova obra.</p>
     <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Nome da Obra *</label>
-        <input id="nome" type="text" placeholder="Ex: Residencial Aurora - Torre B"
-          style="width:100%;height:40px;border:1.5px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Descrição</label>
-        <textarea id="descricao" placeholder="Descrição ou fase da obra..."
-          style="width:100%;height:80px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;resize:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'"></textarea>
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">ID do Usuário Responsável *</label>
-        <input id="usuario_id" type="number" min="1" placeholder="Ex: 1"
-          style="width:100%;height:40px;border:1.5px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
+      <div><label class="field-label">Nome da Obra *</label><input id="nome" class="field-input" type="text" placeholder="Ex: Residencial Aurora - Torre B"></div>
+      <div><label class="field-label">Descrição</label><textarea id="descricao" class="field-textarea" placeholder="Descrição ou fase da obra..."></textarea></div>
+      <div><label class="field-label">ID do Usuário Responsável *</label><input id="usuario_id" class="field-input" type="number" min="1" placeholder="Ex: 1"></div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:24px;">
-      <button onclick="fecharModal()"
-        style="flex:1;height:42px;border:1.5px solid var(--border);border-radius:8px;background:none;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;">
-        Cancelar
-      </button>
-      <button onclick="criarObra()"
-        style="flex:2;height:42px;background:var(--accent);border:none;border-radius:8px;font-family:var(--font);font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;transition:background .15s;"
-        onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">
-        Criar Obra
-      </button>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="close-obra2">Cancelar</button>
+      <button class="btn-confirm" id="btn-criar-obra" style="background:var(--accent);">Criar Obra</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: UPLOAD DE ARQUIVO  (POST /upload)
-══════════════════════════════════════════ -->
-<div id="modal-upload" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;">
-    <button onclick="fecharModalUpload()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#9ca3af;font-size:20px;line-height:1;">✕</button>
-    <h3 style="font-family:var(--font);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:-.3px;margin-bottom:6px;">Importar em Massa</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;font-family:var(--font);">Faça upload de planilhas ou documentos .zip para uma obra.</p>
+<!-- ══ MODAL UPLOAD ══ -->
+<div class="modal-overlay" id="modal-upload">
+  <div class="modal-box" style="max-width:440px;">
+    <button class="modal-close" id="close-upload">✕</button>
+    <p class="modal-title">Importar em Massa</p>
+    <p class="modal-sub">Faça upload de planilhas ou documentos .zip para uma obra.</p>
     <div style="display:flex;flex-direction:column;gap:14px;">
+      <div><label class="field-label">ID da Obra</label><input id="obra_id" class="field-input" type="number" min="1" placeholder="Ex: 5"></div>
       <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">ID da Obra</label>
-        <input id="obra_id" type="number" min="1" placeholder="Ex: 5"
-          style="width:100%;height:40px;border:1.5px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Arquivo</label>
-        <label id="drop-zone" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:10px;padding:28px 16px;cursor:pointer;transition:border-color .15s;background:var(--bg);"
-          ondragover="event.preventDefault();this.style.borderColor='#3b82f6'" ondragleave="this.style.borderColor='var(--border)'"
-          ondrop="handleDrop(event)">
+        <label class="field-label">Arquivo</label>
+        <label class="drop-zone" id="drop-zone">
           <svg width="28" height="28" fill="none" stroke="#9ca3af" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-          <span style="font-size:13px;color:var(--text-muted);font-family:var(--font);">Arraste o arquivo ou <span style="color:#3b82f6;font-weight:600;">clique para selecionar</span></span>
+          <span style="font-size:13px;color:var(--text-muted);">Arraste o arquivo ou <span style="color:#3b82f6;font-weight:600;">clique para selecionar</span></span>
           <span id="file-name" style="font-family:var(--mono);font-size:11px;color:var(--text-secondary);"></span>
-          <input id="arquivo" type="file" style="display:none;" onchange="mostrarNomeArquivo(this)">
+          <input id="arquivo" type="file" style="display:none;">
         </label>
       </div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:24px;">
-      <button onclick="fecharModalUpload()"
-        style="flex:1;height:42px;border:1.5px solid var(--border);border-radius:8px;background:none;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;">
-        Cancelar
-      </button>
-      <button onclick="uploadArquivo()"
-        style="flex:2;height:42px;background:#3b82f6;border:none;border-radius:8px;font-family:var(--font);font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;transition:background .15s;"
-        onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
-        Enviar Arquivo
-      </button>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="close-upload2">Cancelar</button>
+      <button class="btn-confirm" id="btn-upload" style="background:#3b82f6;">Enviar Arquivo</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL: ARQUIVOS DA OBRA  (GET /obras/:id/arquivos)
-══════════════════════════════════════════ -->
-<div id="modal-arquivos" style="display:none;position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.5);backdrop-filter:blur(5px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:540px;box-shadow:0 24px 64px rgba(0,0,0,.2);position:relative;max-height:80vh;display:flex;flex-direction:column;">
-    <button onclick="fecharModalArquivos()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#9ca3af;font-size:20px;line-height:1;">✕</button>
-    <div style="margin-bottom:20px;">
-      <h3 id="arquivos-titulo" style="font-family:var(--font);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:-.3px;">Arquivos da Obra</h3>
-      <p id="arquivos-subtitulo" style="font-size:13px;color:var(--text-muted);margin-top:3px;font-family:var(--font);">Carregando...</p>
+<!-- ══ MODAL ARQUIVOS DA OBRA ══ -->
+<div class="modal-overlay" id="modal-arquivos" style="z-index:1500;">
+  <div class="modal-box" style="max-width:540px;max-height:82vh;display:flex;flex-direction:column;">
+    <button class="modal-close" id="close-arquivos">✕</button>
+    <div style="margin-bottom:16px;flex-shrink:0;">
+      <p class="modal-title" id="arq-titulo">Arquivos da Obra</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-top:3px;" id="arq-sub">Carregando...</p>
     </div>
-    <!-- Barra de upload rápido dentro do modal -->
-    <div style="display:flex;gap:10px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);">
-      <label style="flex:1;display:flex;align-items:center;gap:8px;height:38px;border:1.5px dashed var(--border);border-radius:8px;padding:0 12px;cursor:pointer;font-family:var(--font);font-size:12.5px;color:var(--text-muted);transition:border-color .15s;"
-        ondragover="event.preventDefault();this.style.borderColor='#3b82f6'" ondragleave="this.style.borderColor='var(--border)'"
-        ondrop="handleDropInline(event)">
+    <div style="display:flex;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);flex-shrink:0;">
+      <label class="drop-zone" id="inline-dz" style="flex:1;padding:10px 14px;flex-direction:row;justify-content:flex-start;gap:8px;">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-        <span id="inline-file-name">Adicionar arquivo...</span>
-        <input id="arquivo-inline" type="file" style="display:none;" onchange="mostrarNomeInline(this)">
+        <span id="inline-fname" style="font-size:12.5px;color:var(--text-muted);">Adicionar arquivo...</span>
+        <input id="arquivo-inline" type="file" style="display:none;">
       </label>
-      <button onclick="uploadArquivoInline()"
-        style="height:38px;padding:0 16px;background:#3b82f6;border:none;border-radius:8px;font-family:var(--font);font-size:12.5px;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap;transition:background .15s;"
-        onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
-        Enviar
-      </button>
+      <button class="btn-confirm" id="btn-upload-inline" style="background:#3b82f6;flex:0;white-space:nowrap;padding:0 16px;">Enviar</button>
     </div>
-    <!-- Lista de arquivos -->
-    <div id="lista-arquivos" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:80px;">
-      <!-- preenchido via JS -->
+    <div id="lista-arquivos" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:60px;"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL DETALHES OBRA DESTAQUE ══ -->
+<div class="modal-overlay" id="modal-detalhes">
+  <div class="modal-box" style="max-width:460px;">
+    <button class="modal-close" id="close-detalhes">✕</button>
+    <p class="modal-title">Residencial Aurora — Torre A</p>
+    <p class="modal-sub">ID: #8821 · Fase de fundação e infraestrutura hidráulica</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;"><span style="color:var(--text-muted);">Status</span><span class="status-badge urgent">Urgente</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13.5px;"><span style="color:var(--text-muted);">Progresso geral</span><strong>68%</strong></div>
+      <div style="display:flex;justify-content:space-between;font-size:13.5px;"><span style="color:var(--text-muted);">Pendência</span><strong>Verificação técnica</strong></div>
+      <div style="display:flex;justify-content:space-between;font-size:13.5px;"><span style="color:var(--text-muted);">Equipe</span><strong>6 membros</strong></div>
+      <div style="display:flex;justify-content:space-between;font-size:13.5px;"><span style="color:var(--text-muted);">Alertas IA</span><strong style="color:var(--accent);">4 inconsistências</strong></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="close-det2">Fechar</button>
+      <button class="btn-confirm" id="btn-det-arquivos" style="background:var(--accent);">Ver Arquivos</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     DROPDOWN CONTEXT MENU
-══════════════════════════════════════════ -->
-<div id="context-menu" style="display:none;position:fixed;z-index:3000;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.14);padding:6px;min-width:180px;font-family:var(--font);">
-  <button onclick="contextAcao('arquivos')" style="width:100%;display:flex;align-items:center;gap:9px;padding:9px 12px;border:none;background:none;border-radius:7px;font-family:var(--font);font-size:13px;font-weight:500;color:var(--text-primary);cursor:pointer;text-align:left;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+<!-- ══ MODAL ALERTAS IA ══ -->
+<div class="modal-overlay" id="modal-alertas">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" id="close-alertas">✕</button>
+    <p class="modal-title">Alertas de IA — Torre A</p>
+    <p class="modal-sub">4 inconsistências identificadas nos alvarás</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="alert-item red"><div class="alert-title">Alvará A-2024-001 vencido</div><div class="alert-desc">Vencimento: 15/01/2025 · Renovação pendente</div></div>
+      <div class="alert-item red"><div class="alert-title">Planta hidráulica desatualizada</div><div class="alert-desc">Última revisão: 8 meses atrás · Atualização necessária</div></div>
+      <div class="alert-item yellow"><div class="alert-title">ART do engenheiro não assinada</div><div class="alert-desc">Responsável: Eng. Marcos · Aguardando assinatura</div></div>
+      <div class="alert-item yellow"><div class="alert-title">Laudo de sondagem incompleto</div><div class="alert-desc">Seção C ausente · Requer complementação</div></div>
+    </div>
+    <div class="modal-actions"><button class="btn-confirm" id="close-alertas2" style="background:var(--accent);">Entendido</button></div>
+  </div>
+</div>
+
+<!-- ══ MODAL SUPORTE ══ -->
+<div class="modal-overlay" id="modal-suporte">
+  <div class="modal-box" style="max-width:440px;">
+    <button class="modal-close" id="close-suporte">✕</button>
+    <p class="modal-title">Suporte AutoDoc</p>
+    <p class="modal-sub">Como podemos ajudar?</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="padding:14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;display:flex;gap:12px;align-items:center;transition:background .12s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+        <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <div><div style="font-size:13.5px;font-weight:600;">Chat ao Vivo</div><div style="font-size:12px;color:var(--text-muted);">Falar com um atendente</div></div>
+      </div>
+      <div style="padding:14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;display:flex;gap:12px;align-items:center;transition:background .12s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+        <svg width="20" height="20" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div><div style="font-size:13.5px;font-weight:600;">Documentação</div><div style="font-size:12px;color:var(--text-muted);">Guias e tutoriais</div></div>
+      </div>
+      <div style="padding:14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;display:flex;gap:12px;align-items:center;transition:background .12s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+        <svg width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div><div style="font-size:13.5px;font-weight:600;">FAQ</div><div style="font-size:12px;color:var(--text-muted);">Perguntas frequentes</div></div>
+      </div>
+    </div>
+    <div class="modal-actions"><button class="btn-confirm" id="close-suporte2" style="background:var(--accent);">Fechar</button></div>
+  </div>
+</div>
+
+<!-- ══ CONTEXT MENU ══ -->
+<div id="ctx-menu">
+  <button class="ctx-btn" id="ctx-arquivos">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     Ver arquivos
   </button>
-  <button onclick="contextAcao('upload')" style="width:100%;display:flex;align-items:center;gap:9px;padding:9px 12px;border:none;background:none;border-radius:7px;font-family:var(--font);font-size:13px;font-weight:500;color:var(--text-primary);cursor:pointer;text-align:left;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+  <button class="ctx-btn" id="ctx-upload">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
     Upload de arquivo
   </button>
-  <div style="height:1px;background:var(--border);margin:4px 0;"></div>
-  <button onclick="contextAcao('excluir')" style="width:100%;display:flex;align-items:center;gap:9px;padding:9px 12px;border:none;background:none;border-radius:7px;font-family:var(--font);font-size:13px;font-weight:500;color:#ef4444;cursor:pointer;text-align:left;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">
+  <div class="ctx-divider"></div>
+  <button class="ctx-btn danger" id="ctx-excluir">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
     Excluir obra
   </button>
 </div>
 
+<!-- ══ NOTIFICAÇÕES ══ -->
+<div id="notif-panel">
+  <div class="notif-header">
+    <span>Notificações</span>
+    <button class="notif-mark-all" id="btn-mark-all">Marcar todas como lidas</button>
+  </div>
+  <div class="notif-item unread"><span class="ndot"></span><div><div class="notif-text"><strong>Torre A</strong> — Alvará vencido detectado pela IA</div><div class="notif-time">há 2 horas</div></div></div>
+  <div class="notif-item unread"><span class="ndot"></span><div><div class="notif-text"><strong>Galpão E-Com</strong> — Status alterado para Urgente</div><div class="notif-time">há 5 horas</div></div></div>
+  <div class="notif-item"><span class="ndot read"></span><div><div class="notif-text"><strong>Relatório semanal</strong> gerado com sucesso</div><div class="notif-time">há 1 dia</div></div></div>
+  <div class="notif-item"><span class="ndot read"></span><div><div class="notif-text"><strong>Corporate B3</strong> — Documento enviado por Marcos</div><div class="notif-time">há 2 dias</div></div></div>
+</div>
+
 <script>
-  // ════════════════════════════════════════════════
-  //  ESTADO GLOBAL
-  // ════════════════════════════════════════════════
-  let usuarioLogado = null;          // objeto { id, nome, email } após login
-  let obraContexto = null;           // obra selecionada no context menu
+'use strict';
 
-  const API = 'http://localhost:3000';
+const API = 'http://localhost:3000';
+const GRADS = [
+  'linear-gradient(135deg,#6366f1,#8b5cf6)',
+  'linear-gradient(135deg,#ef4444,#f97316)',
+  'linear-gradient(135deg,#059669,#10b981)',
+  'linear-gradient(135deg,#f59e0b,#ef4444)',
+  'linear-gradient(135deg,#3b82f6,#6366f1)',
+  'linear-gradient(135deg,#ec4899,#a855f7)',
+];
 
-  // ════════════════════════════════════════════════
-  //  TOAST
-  // ════════════════════════════════════════════════
-  function showToast(msg, tipo = 'success') {
-    const t = document.createElement('div');
-    t.textContent = msg;
-    t.style.cssText = `
-      position:fixed;bottom:24px;right:24px;z-index:9999;
-      background:${tipo === 'success' ? '#10b981' : tipo === 'info' ? '#3b82f6' : '#ef4444'};
-      color:white;padding:12px 20px;border-radius:10px;
-      font-family:var(--font);font-size:13.5px;font-weight:600;
-      box-shadow:0 8px 24px rgba(0,0,0,.18);
-      animation:slideIn .25s ease;
-    `;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3200);
+let usuarioLogado  = null;
+let todasObras     = [];
+let obraContexto   = null;
+let filtroAtivo    = null;
+let paginaAtual    = 1;
+const POR_PAG      = 10;
+let unread         = 2;
+let searchTimer    = null;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function toast(msg, tipo='success') {
+  const cores = {success:'#10b981',error:'#ef4444',info:'#3b82f6',warn:'#f59e0b'};
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;background:${cores[tipo]};color:#fff;padding:12px 20px;border-radius:10px;font-family:var(--font);font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18);animation:slideIn .25s ease;`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 3200);
+}
+
+function spin() {
+  return `<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>`;
+}
+
+function abrir(id) { const m=$(id); if(m) m.style.display='flex'; }
+function fechar(id) { const m=$(id); if(m) m.style.display='none'; }
+function limpar(id) {
+  const m=$(id); if(!m) return;
+  m.querySelectorAll('input,textarea').forEach(el=>el.value='');
+  m.querySelectorAll('.error-box').forEach(el=>el.style.display='none');
+}
+function fecharTodos() {
+  document.querySelectorAll('.modal-overlay').forEach(m=>m.style.display='none');
+  fecharCtx(); fecharNotif();
+}
+
+async function fazerLogin() {
+  const email = $('login-email').value.trim();
+  const senha = $('login-senha').value;
+  const err = $('login-erro');
+  const btn = $('btn-fazer-login');
+  err.style.display='none';
+  if (!email||!senha) { err.textContent='Preencha e-mail e senha.'; err.style.display='block'; return; }
+  btn.disabled=true; btn.textContent='Entrando...';
+  try {
+    const res = await fetch(`${API}/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,senha})});
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.erro||'Credenciais inválidas');
+    usuarioLogado=data.usuario;
+    atualizarTopbar();
+    fechar('modal-login');
+    toast(`Bem-vindo, ${usuarioLogado.nome}!`);
+    carregarObras();
+  } catch(e) { err.textContent=e.message; err.style.display='block'; }
+  finally { btn.disabled=false; btn.textContent='Entrar'; }
+}
+
+function fazerLogout() {
+  usuarioLogado=null; todasObras=[]; filtroAtivo=null; paginaAtual=1;
+  atualizarTopbar();
+  renderTabela([]);
+  $('total-obras').textContent='—';
+  ['count-exec','count-urgent','count-rev'].forEach(id=>$(id).textContent='—');
+  toast('Você saiu da conta.','info');
+  abrir('modal-login');
+}
+
+function atualizarTopbar() {
+  if (usuarioLogado) {
+    $('user-name').textContent=usuarioLogado.nome;
+    $('user-role').textContent='Usuário';
+    $('user-avatar').textContent=usuarioLogado.nome.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+    $('user-info').title='Clique para sair';
+  } else {
+    $('user-name').textContent='Fazer Login'; $('user-role').textContent=''; $('user-avatar').textContent='?';
+    $('user-info').title='Clique para entrar';
   }
+}
 
-  // ════════════════════════════════════════════════
-  //  LOADER EM BOTÃO
-  // ════════════════════════════════════════════════
-  function setBtnLoading(btn, loading, textoOriginal) {
-    if (!btn) return;
-    if (loading) {
-      btn.disabled = true;
-      btn.dataset.original = btn.textContent;
-      btn.textContent = 'Aguarde...';
-      btn.style.opacity = '.7';
-    } else {
-      btn.disabled = false;
-      btn.textContent = textoOriginal || btn.dataset.original || btn.textContent;
-      btn.style.opacity = '1';
-    }
+async function cadastrarUsuario() {
+  const nome=$('cad-nome').value.trim();
+  const email=$('cad-email').value.trim();
+  const senha=$('cad-senha').value;
+  const err=$('cad-erro');
+  const btn=$('btn-cadastrar');
+  err.style.display='none';
+  if (!nome) { err.textContent='Informe seu nome completo.'; err.style.display='block'; return; }
+  if (!email) { err.textContent='Informe seu e-mail.'; err.style.display='block'; return; }
+  if (!senha) { err.textContent='Informe sua senha.'; err.style.display='block'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent='Digite um e-mail válido.'; err.style.display='block'; return; }
+  if (senha.length<6) { err.textContent='Senha com mínimo 6 caracteres.'; err.style.display='block'; return; }
+  btn.disabled=true;
+  btn.textContent='Criando conta...';
+  try {
+    const res=await fetch(`${API}/usuarios`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome,email,senha})});
+    const data=await res.json().catch(()=>({}));
+    if (!res.ok) throw new Error(data.erro||'Erro ao criar conta');
+    fechar('modal-cadastro'); limpar('modal-cadastro');
+    toast('Conta criada! Faça login.');
+    abrir('modal-login');
+    $('login-email').value=email;
+  } catch(e) {
+    const msg=e?.message||'Não foi possível criar a conta no momento.';
+    if (/email/i.test(msg)) err.textContent='Este e-mail já está cadastrado.';
+    else if (/network|failed to fetch|fetch/i.test(msg)) err.textContent='Falha de conexão com o servidor. Tente novamente.';
+    else err.textContent=msg;
+    err.style.display='block';
+  } finally {
+    btn.disabled=false;
+    btn.textContent='Criar Conta';
   }
+}
 
-  // ════════════════════════════════════════════════
-  //  LOGIN  (POST /login)
-  // ════════════════════════════════════════════════
-  function abrirModalLogin() {
-    document.getElementById('modal-login').style.display = 'flex';
-    document.getElementById('login-erro').style.display = 'none';
-    document.getElementById('login-email').value = '';
-    document.getElementById('login-senha').value = '';
-    setTimeout(() => document.getElementById('login-email').focus(), 100);
+async function carregarObras() {
+  $('obras-tbody').innerHTML=`<tr><td colspan="6" style="padding:32px;text-align:center;color:var(--text-muted);font-size:13px;">${spin()}Carregando obras...</td></tr>`;
+  try {
+    const res=await fetch(`${API}/obras`);
+    if (!res.ok) throw new Error();
+    todasObras=await res.json();
+    atualizarContadores();
+    aplicarFiltro(filtroAtivo);
+  } catch {
+    $('obras-tbody').innerHTML=`<tr><td colspan="6" style="padding:32px;text-align:center;color:#ef4444;font-size:13px;">Erro ao conectar com <code>localhost:3000</code>. Verifique se o servidor está rodando.</td></tr>`;
+    $('pag-info').textContent='';
   }
+}
 
-  function fecharModalLogin() {
-    document.getElementById('modal-login').style.display = 'none';
+function atualizarContadores() {
+  const n=todasObras.length;
+  $('total-obras').textContent=n;
+  $('count-exec').textContent=String(Math.max(0,n-2)).padStart(2,'0');
+  $('count-urgent').textContent=n>=1?'01':'00';
+  $('count-rev').textContent=n>=2?'01':'00';
+}
+
+function statusDaObra(obra, idx) {
+  const d=(obra.descricao||'').toLowerCase();
+  if (d.includes('urg') || idx===0) return 'urgent';
+  if (d.includes('revis') || idx===1) return 'rev';
+  return 'exec';
+}
+
+function aplicarFiltro(tipo) {
+  filtroAtivo=tipo; paginaAtual=1;
+  const badge=$('filter-badge');
+  ['filter-exec','filter-urgent','filter-rev'].forEach(id=>$(id).classList.remove('active-filter'));
+  if (tipo) { badge.style.display='inline-block'; $(`filter-${tipo}`)?.classList.add('active-filter'); }
+  else { badge.style.display='none'; }
+  renderPagina();
+}
+
+function renderPagina() {
+  const busca=$('search-input').value.trim().toLowerCase();
+  let lista=[...todasObras];
+  if (filtroAtivo) lista=lista.filter((o,i)=>statusDaObra(o,i)===filtroAtivo);
+  if (busca) lista=lista.filter(o=>(o.nome+' '+(o.descricao||'')+' '+(o.usuario_nome||'')).toLowerCase().includes(busca));
+
+  const total=lista.length, inicio=(paginaAtual-1)*POR_PAG, fim=Math.min(inicio+POR_PAG,total);
+  $('pag-info').textContent = total ? `Mostrando ${inicio+1}–${fim} de ${total} obra${total!==1?'s':''}` : 'Nenhuma obra encontrada';
+  $('btn-page').textContent=paginaAtual;
+  $('btn-prev').disabled=paginaAtual===1;
+  $('btn-next').disabled=fim>=total;
+  renderTabela(lista.slice(inicio,fim), busca);
+}
+
+function hl(txt, busca) {
+  if (!busca) return txt;
+  return txt.replace(new RegExp(`(${busca.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark class="hl">$1</mark>');
+}
+
+function renderTabela(obras, busca='') {
+  const tbody=$('obras-tbody');
+  if (!obras.length) {
+    tbody.innerHTML=`<tr><td colspan="6" style="padding:44px;text-align:center;color:var(--text-muted);font-size:13px;">${todasObras.length?'Nenhuma obra encontrada para esta busca.':'Nenhuma obra cadastrada. Clique em <strong>Novo Projeto</strong> para começar.'}</td></tr>`;
+    return;
   }
-
-  async function fazerLogin() {
-    const email = document.getElementById('login-email').value.trim();
-    const senha = document.getElementById('login-senha').value;
-    const erroEl = document.getElementById('login-erro');
-    const btn = document.getElementById('btn-login');
-
-    if (!email || !senha) {
-      erroEl.textContent = 'Preencha e-mail e senha.';
-      erroEl.style.display = 'block';
-      return;
-    }
-    setBtnLoading(btn, true);
-    erroEl.style.display = 'none';
-
-    try {
-      const res = await fetch(`${API}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, senha })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.erro || 'Credenciais inválidas');
-
-      usuarioLogado = data.usuario;
-      atualizarUI();
-      fecharModalLogin();
-      showToast(`Bem-vindo, ${usuarioLogado.nome}!`);
-      carregarObras();
-    } catch (err) {
-      erroEl.textContent = err.message;
-      erroEl.style.display = 'block';
-    } finally {
-      setBtnLoading(btn, false, 'Entrar');
-    }
-  }
-
-  function fazerLogout() {
-    usuarioLogado = null;
-    atualizarUI();
-    const tabela = document.querySelector('tbody');
-    if (tabela) tabela.innerHTML = `<tr><td colspan="6" style="padding:40px;text-align:center;color:var(--text-muted);font-size:13px;">Faça login para ver as obras.</td></tr>`;
-    showToast('Você saiu da conta.', 'info');
-  }
-
-  // ════════════════════════════════════════════════
-  //  CADASTRO DE USUÁRIO  (POST /usuarios)
-  // ════════════════════════════════════════════════
-  function abrirModalCadastro() {
-    fecharModalLogin();
-    document.getElementById('modal-cadastro').style.display = 'flex';
-    document.getElementById('cad-erro').style.display = 'none';
-  }
-
-  function fecharModalCadastro() {
-    document.getElementById('modal-cadastro').style.display = 'none';
-    ['cad-nome','cad-email','cad-senha'].forEach(id => { document.getElementById(id).value = ''; });
-  }
-
-  async function cadastrarUsuario() {
-    const nome  = document.getElementById('cad-nome').value.trim();
-    const email = document.getElementById('cad-email').value.trim();
-    const senha = document.getElementById('cad-senha').value;
-    const erroEl = document.getElementById('cad-erro');
-
-    if (!nome || !email || !senha) {
-      erroEl.textContent = 'Preencha todos os campos obrigatórios.';
-      erroEl.style.display = 'block';
-      return;
-    }
-    if (senha.length < 6) {
-      erroEl.textContent = 'A senha precisa ter pelo menos 6 caracteres.';
-      erroEl.style.display = 'block';
-      return;
-    }
-    erroEl.style.display = 'none';
-
-    try {
-      const res = await fetch(`${API}/usuarios`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email, senha })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.erro || 'Erro ao criar conta');
-
-      fecharModalCadastro();
-      showToast('Conta criada! Faça login para continuar.');
-      abrirModalLogin();
-      document.getElementById('login-email').value = email;
-    } catch (err) {
-      erroEl.textContent = err.message;
-      erroEl.style.display = 'block';
-    }
-  }
-
-  // ════════════════════════════════════════════════
-  //  ATUALIZAR UI PÓS-LOGIN/LOGOUT
-  // ════════════════════════════════════════════════
-  function atualizarUI() {
-    const nameEl = document.querySelector('.user-info .name');
-    const roleEl = document.querySelector('.user-info .role');
-    const avatarEl = document.querySelector('.user-info .avatar');
-    const userInfoEl = document.querySelector('.user-info');
-
-    if (usuarioLogado) {
-      if (nameEl) nameEl.textContent = usuarioLogado.nome;
-      if (roleEl) roleEl.textContent = 'Usuário';
-      if (avatarEl) {
-        const initials = usuarioLogado.nome.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
-        avatarEl.textContent = initials;
-      }
-      if (userInfoEl) userInfoEl.title = 'Clique para sair';
-    } else {
-      if (nameEl) nameEl.textContent = 'Fazer Login';
-      if (roleEl) roleEl.textContent = '';
-      if (avatarEl) avatarEl.textContent = '?';
-    }
-  }
-
-  // ════════════════════════════════════════════════
-  //  CARREGAR OBRAS  (GET /obras)
-  // ════════════════════════════════════════════════
-  async function carregarObras() {
-    const tabela = document.querySelector('tbody');
-    if (!tabela) return;
-
-    tabela.innerHTML = `
-      <tr><td colspan="6" style="padding:32px;text-align:center;color:var(--text-muted);font-size:13px;">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-          style="animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px;">
-          <path d="M21 12a9 9 0 11-6.219-8.56"/>
-        </svg>
-        Carregando obras...
-      </td></tr>`;
-
-    try {
-      const res = await fetch(`${API}/obras`);
-      if (!res.ok) throw new Error('Falha na requisição');
-      const obras = await res.json();
-
-      tabela.innerHTML = '';
-      if (!obras.length) {
-        tabela.innerHTML = `<tr><td colspan="6" style="padding:44px;text-align:center;color:var(--text-muted);font-size:13px;">
-          Nenhuma obra cadastrada ainda. Clique em <strong>Novo Projeto</strong> para começar.
-        </td></tr>`;
-        return;
-      }
-
-      const gradientes = [
-        'linear-gradient(135deg,#6366f1,#8b5cf6)',
-        'linear-gradient(135deg,#ef4444,#f97316)',
-        'linear-gradient(135deg,#059669,#10b981)',
-        'linear-gradient(135deg,#f59e0b,#ef4444)',
-        'linear-gradient(135deg,#3b82f6,#6366f1)',
-        'linear-gradient(135deg,#ec4899,#a855f7)',
-      ];
-
-      obras.forEach((obra, i) => {
-        const initials = (obra.usuario_nome || 'U').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
-        const grad = gradientes[i % gradientes.length];
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>
-            <div class="project-cell">
-              <div class="proj-thumb" style="background:${grad}">
-                <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-              </div>
-              <div class="proj-info">
-                <div class="proj-name">${escHtml(obra.nome)}</div>
-                <div class="proj-doc">ID: ${obra.id}</div>
-              </div>
-            </div>
-          </td>
-          <td class="location-cell">${escHtml(obra.descricao || 'Sem descrição')}</td>
-          <td>
-            <div class="manager-cell">
-              <div class="m-avatar" style="background:${grad}">${initials}</div>
-              <span class="m-name">${escHtml(obra.usuario_nome || '—')}</span>
-            </div>
-          </td>
-          <td><span class="status-badge exec">Ativo</span></td>
-          <td>
-            <div class="doc-progress">
-              <div class="doc-bar"><div class="doc-fill blue" style="width:70%"></div></div>
-              <span class="doc-pct">70%</span>
-            </div>
-          </td>
-          <td>
-            <button class="action-btn" title="Ações" data-obra-id="${obra.id}" data-obra-nome="${escHtml(obra.nome)}">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-            </button>
-          </td>`;
-        tabela.appendChild(tr);
-      });
-
-      // bind dos botões de ação
-      tabela.querySelectorAll('.action-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          obraContexto = { id: btn.dataset.obraId, nome: btn.dataset.obraNome };
-          abrirContextMenu(e.clientX, e.clientY);
-        });
-      });
-
-    } catch (err) {
-      console.error('Erro ao carregar obras:', err);
-      tabela.innerHTML = `<tr><td colspan="6" style="padding:32px;text-align:center;color:#ef4444;font-size:13px;">
-        Erro ao conectar com o servidor. Verifique se a API está rodando em <code>localhost:3000</code>.
-      </td></tr>`;
-    }
-  }
-
-  // ════════════════════════════════════════════════
-  //  CRIAR OBRA  (POST /obras)
-  // ════════════════════════════════════════════════
-  function abrirModal() {
-    document.getElementById('modal-nova-obra').style.display = 'flex';
-  }
-
-  function fecharModal() {
-    document.getElementById('modal-nova-obra').style.display = 'none';
-    ['nome','descricao','usuario_id'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
+  tbody.innerHTML='';
+  obras.forEach((obra,i)=>{
+    const g=GRADS[i%GRADS.length];
+    const ini=(obra.usuario_nome||'U').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+    const st=statusDaObra(obra,i);
+    const label=st==='urgent'?'Urgente':st==='rev'?'Em revisão':'Ativo';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><div class="project-cell">
+        <div class="proj-thumb" style="background:${g}"><svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div><div class="proj-name">${hl(esc(obra.nome),busca)}</div><div class="proj-doc">ID: ${obra.id}</div></div>
+      </div></td>
+      <td class="location-cell">${hl(esc(obra.descricao||'Sem descrição'),busca)}</td>
+      <td><div class="manager-cell"><div class="m-avatar" style="background:${g}">${ini}</div><span class="m-name">${hl(esc(obra.usuario_nome||'—'),busca)}</span></div></td>
+      <td><span class="status-badge ${st==='urgent'?'urgent':st==='rev'?'rev':'exec'}">${label}</span></td>
+      <td><div class="doc-progress"><div class="doc-bar"><div class="doc-fill ${st==='urgent'?'red':st==='rev'?'yellow':'blue'}" style="width:${st==='urgent'?'52':st==='rev'?'81':'70'}%"></div></div><span class="doc-pct">${st==='urgent'?'52':st==='rev'?'81':'70'}%</span></div></td>
+      <td><button class="action-btn" data-id="${obra.id}" data-nome="${esc(obra.nome)}" title="Ações"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button></td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.action-btn').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      obraContexto={id:btn.dataset.id, nome:btn.dataset.nome};
+      abrirCtx(e.clientX,e.clientY);
     });
-  }
+  });
+}
 
-  async function criarObra() {
-    const nome       = document.getElementById('nome')?.value?.trim();
-    const descricao  = document.getElementById('descricao')?.value?.trim();
-    const usuario_id = document.getElementById('usuario_id')?.value?.trim();
+async function criarObra() {
+  const nome=$('nome').value.trim();
+  const descricao=$('descricao').value.trim();
+  const uid=$('usuario_id').value.trim();
+  if (!nome||!uid) { toast('Preencha nome e ID do usuário','error'); return; }
+  const btn=$('btn-criar-obra'); btn.disabled=true; btn.textContent='Criando...';
+  try {
+    const res=await fetch(`${API}/obras`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome,descricao,usuario_id:Number(uid)})});
+    if (!res.ok) throw new Error();
+    fechar('modal-nova-obra'); limpar('modal-nova-obra');
+    toast('Obra criada com sucesso!');
+    carregarObras();
+  } catch { toast('Erro ao criar obra','error'); }
+  finally { btn.disabled=false; btn.textContent='Criar Obra'; }
+}
 
-    if (!nome || !usuario_id) {
-      showToast('Preencha nome e ID do usuário', 'error');
-      return;
-    }
-    try {
-      const res = await fetch(`${API}/obras`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, descricao, usuario_id: Number(usuario_id) })
-      });
-      if (!res.ok) throw new Error('Erro na criação');
-      fecharModal();
-      showToast('Obra criada com sucesso!');
-      carregarObras();
-    } catch (err) {
-      console.error('Erro ao criar obra:', err);
-      showToast('Erro ao criar obra', 'error');
-    }
-  }
+async function uploadArquivo() {
+  const fi=$('arquivo'); const oid=$('obra_id').value.trim();
+  if (!fi?.files?.length) { toast('Selecione um arquivo','error'); return; }
+  if (!oid) { toast('Informe o ID da obra','error'); return; }
+  const fd=new FormData(); fd.append('arquivo',fi.files[0]); fd.append('obra_id',oid);
+  const btn=$('btn-upload'); btn.disabled=true; btn.textContent='Enviando...';
+  try {
+    const res=await fetch(`${API}/upload`,{method:'POST',body:fd});
+    if (!res.ok) throw new Error();
+    fechar('modal-upload'); limpar('modal-upload');
+    toast('Arquivo enviado com sucesso!');
+  } catch { toast('Erro no upload','error'); }
+  finally { btn.disabled=false; btn.textContent='Enviar Arquivo'; }
+}
 
-  // ════════════════════════════════════════════════
-  //  UPLOAD DE ARQUIVO  (POST /upload)
-  // ════════════════════════════════════════════════
-  function abrirModalUpload(obraId) {
-    document.getElementById('modal-upload').style.display = 'flex';
-    if (obraId) document.getElementById('obra_id').value = obraId;
-  }
+async function abrirArquivos(id, nome) {
+  $('modal-arquivos').dataset.obraId=id;
+  $('arq-titulo').textContent=`Arquivos — ${nome}`;
+  $('arq-sub').textContent='Carregando...';
+  $('arquivo-inline').value=''; $('inline-fname').textContent='Adicionar arquivo...';
+  abrir('modal-arquivos');
+  await carregarArquivos(id);
+}
 
-  function fecharModalUpload() {
-    document.getElementById('modal-upload').style.display = 'none';
-    document.getElementById('obra_id').value = '';
-    document.getElementById('arquivo').value = '';
-    document.getElementById('file-name').textContent = '';
-    document.getElementById('drop-zone').style.borderColor = 'var(--border)';
-  }
+async function carregarArquivos(obraId) {
+  const lista=$('lista-arquivos'), sub=$('arq-sub');
+  lista.innerHTML=`<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">${spin()}Carregando...</div>`;
+  try {
+    const res=await fetch(`${API}/obras/${obraId}/arquivos`);
+    const arqs=await res.json();
+    sub.textContent=`${arqs.length} arquivo${arqs.length!==1?'s':''} encontrado${arqs.length!==1?'s':''}`;
+    lista.innerHTML='';
+    if (!arqs.length) { lista.innerHTML=`<div style="text-align:center;padding:28px;color:var(--text-muted);font-size:13px;">Nenhum arquivo enviado ainda.</div>`; return; }
+    arqs.forEach(arq=>{
+      const ext=arq.nome.split('.').pop().toUpperCase();
+      const cor=ext==='PDF'?'#ef4444':ext==='ZIP'?'#f59e0b':'#3b82f6';
+      const d=document.createElement('div'); d.className='file-item';
+      d.innerHTML=`
+        <div class="file-ext" style="background:${cor}18;"><span style="font-family:var(--mono);font-size:9px;font-weight:700;color:${cor};">${ext}</span></div>
+        <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(arq.nome)}</div><div style="font-family:var(--mono);font-size:10.5px;color:var(--text-muted);">ID: ${arq.id}</div></div>
+        <a href="${API}/${arq.caminho}" target="_blank" download="${esc(arq.nome)}" class="file-dl" title="Baixar">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </a>`;
+      lista.appendChild(d);
+    });
+  } catch { lista.innerHTML=`<div style="color:#ef4444;font-size:13px;padding:16px;">Erro ao carregar arquivos.</div>`; sub.textContent='Erro'; }
+}
 
-  function mostrarNomeArquivo(input) {
-    document.getElementById('file-name').textContent = input.files[0]?.name || '';
-  }
+async function uploadInline() {
+  const fi=$('arquivo-inline'); const oid=$('modal-arquivos').dataset.obraId;
+  if (!fi?.files?.length) { toast('Selecione um arquivo','error'); return; }
+  const fd=new FormData(); fd.append('arquivo',fi.files[0]); fd.append('obra_id',oid);
+  const btn=$('btn-upload-inline'); btn.disabled=true; btn.textContent='...';
+  try {
+    const res=await fetch(`${API}/upload`,{method:'POST',body:fd});
+    if (!res.ok) throw new Error();
+    toast('Arquivo enviado!'); fi.value=''; $('inline-fname').textContent='Adicionar arquivo...';
+    await carregarArquivos(oid);
+  } catch { toast('Erro no upload','error'); }
+  finally { btn.disabled=false; btn.textContent='Enviar'; }
+}
 
-  function handleDrop(e) {
-    e.preventDefault();
-    const input = document.getElementById('arquivo');
-    if (e.dataTransfer.files.length) {
-      input.files = e.dataTransfer.files;
-      mostrarNomeArquivo(input);
-    }
-  }
+function abrirCtx(x,y) {
+  const m=$('ctx-menu'); m.style.display='block';
+  const mw=190,mh=130;
+  m.style.left=(x+mw>window.innerWidth?window.innerWidth-mw-8:x)+'px';
+  m.style.top=(y+mh>window.innerHeight?y-mh:y)+'px';
+}
+function fecharCtx() { const m=$('ctx-menu'); if(m) m.style.display='none'; }
 
-  async function uploadArquivo() {
-    const fileInput = document.getElementById('arquivo');
-    const obra_id   = document.getElementById('obra_id')?.value?.trim();
+function toggleNotif(e) {
+  e.stopPropagation();
+  const p=$('notif-panel');
+  if (p.style.display==='block') { p.style.display='none'; return; }
+  const r=$('btn-notif').getBoundingClientRect();
+  p.style.top=(r.bottom+8)+'px'; p.style.right=(window.innerWidth-r.right)+'px';
+  p.style.display='block';
+  fecharCtx();
+}
+function fecharNotif() { const p=$('notif-panel'); if(p) p.style.display='none'; }
+function marcarLidas() {
+  document.querySelectorAll('.notif-item').forEach(item=>{
+    item.classList.remove('unread'); item.querySelector('.ndot')?.classList.add('read');
+  });
+  unread=0; $('notif-dot').style.display='none';
+  toast('Todas as notificações marcadas como lidas','info');
+}
 
-    if (!fileInput?.files?.length) { showToast('Selecione um arquivo', 'error'); return; }
-    if (!obra_id)                   { showToast('Informe o ID da obra', 'error'); return; }
+function abrirGeo() {
+  if (navigator.geolocation) {
+    toast('Obtendo localização...','info');
+    navigator.geolocation.getCurrentPosition(
+      p=>toast(`Lat: ${p.coords.latitude.toFixed(4)}, Lng: ${p.coords.longitude.toFixed(4)}`,'info'),
+      ()=>window.open('https://maps.google.com','_blank')
+    );
+  } else window.open('https://maps.google.com','_blank');
+}
 
-    const formData = new FormData();
-    formData.append('arquivo', fileInput.files[0]);
-    formData.append('obra_id', obra_id);
+document.addEventListener('DOMContentLoaded', () => {
+  $('btn-fazer-login').onclick=fazerLogin;
+  $('login-email').onkeydown=e=>{ if(e.key==='Enter') fazerLogin(); };
+  $('login-senha').onkeydown=e=>{ if(e.key==='Enter') fazerLogin(); };
+  $('link-cadastro').onclick=()=>{ fechar('modal-login'); abrir('modal-cadastro'); };
 
-    try {
-      const res  = await fetch(`${API}/upload`, { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.erro || 'Erro no upload');
-      console.log('Upload feito:', data);
-      fecharModalUpload();
-      showToast('Arquivo enviado com sucesso!');
-    } catch (err) {
-      console.error('Erro no upload:', err);
-      showToast('Erro no upload do arquivo', 'error');
-    }
-  }
+  $('close-cadastro').onclick=()=>{ fechar('modal-cadastro'); limpar('modal-cadastro'); };
+  $('close-cad2').onclick=()=>{ fechar('modal-cadastro'); limpar('modal-cadastro'); };
+  $('btn-cadastrar').onclick=cadastrarUsuario;
 
-  // ════════════════════════════════════════════════
-  //  ARQUIVOS DA OBRA  (GET /obras/:id/arquivos)
-  // ════════════════════════════════════════════════
-  async function abrirModalArquivos(obraId, obraNome) {
-    document.getElementById('modal-arquivos').style.display = 'flex';
-    document.getElementById('arquivos-titulo').textContent = `Arquivos — ${obraNome}`;
-    document.getElementById('arquivos-subtitulo').textContent = 'Carregando...';
-    document.getElementById('arquivo-inline').value = '';
-    document.getElementById('inline-file-name').textContent = 'Adicionar arquivo...';
-    document.getElementById('modal-arquivos').dataset.obraId = obraId;
-    await carregarArquivos(obraId);
-  }
+  $('user-info').onclick=()=>{ if(usuarioLogado) fazerLogout(); else abrir('modal-login'); };
 
-  function fecharModalArquivos() {
-    document.getElementById('modal-arquivos').style.display = 'none';
-  }
+  $('btn-new-topbar').onclick=()=>abrir('modal-nova-obra');
+  $('btn-new-sidebar').onclick=()=>abrir('modal-nova-obra');
+  $('close-obra').onclick=()=>{ fechar('modal-nova-obra'); limpar('modal-nova-obra'); };
+  $('close-obra2').onclick=()=>{ fechar('modal-nova-obra'); limpar('modal-nova-obra'); };
+  $('btn-criar-obra').onclick=criarObra;
 
-  async function carregarArquivos(obraId) {
-    const lista  = document.getElementById('lista-arquivos');
-    const subtit = document.getElementById('arquivos-subtitulo');
-    lista.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:13px;">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-        style="animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;">
-        <path d="M21 12a9 9 0 11-6.219-8.56"/>
-      </svg>Carregando arquivos...</div>`;
+  $('widget-import').onclick=()=>abrir('modal-upload');
+  $('close-upload').onclick=()=>{ fechar('modal-upload'); limpar('modal-upload'); };
+  $('close-upload2').onclick=()=>{ fechar('modal-upload'); limpar('modal-upload'); };
+  $('btn-upload').onclick=uploadArquivo;
+  $('arquivo').onchange=function(){ $('file-name').textContent=this.files[0]?.name||''; };
 
-    try {
-      const res      = await fetch(`${API}/obras/${obraId}/arquivos`);
-      const arquivos = await res.json();
+  const dz=$('drop-zone');
+  dz.ondragover=e=>{ e.preventDefault(); dz.classList.add('over'); };
+  dz.ondragleave=()=>dz.classList.remove('over');
+  dz.ondrop=e=>{ e.preventDefault(); dz.classList.remove('over'); const fi=$('arquivo'); if(e.dataTransfer.files.length){fi.files=e.dataTransfer.files; $('file-name').textContent=fi.files[0].name;} };
 
-      subtit.textContent = `${arquivos.length} arquivo${arquivos.length !== 1 ? 's' : ''} encontrado${arquivos.length !== 1 ? 's' : ''}`;
+  $('close-arquivos').onclick=()=>fechar('modal-arquivos');
+  $('btn-upload-inline').onclick=uploadInline;
+  $('arquivo-inline').onchange=function(){ $('inline-fname').textContent=this.files[0]?.name||'Adicionar arquivo...'; };
 
-      if (!arquivos.length) {
-        lista.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text-muted);font-size:13px;font-family:var(--font);">
-          Nenhum arquivo enviado para esta obra ainda.</div>`;
-        return;
-      }
+  const idz=$('inline-dz');
+  idz.ondragover=e=>{ e.preventDefault(); idz.classList.add('over'); };
+  idz.ondragleave=()=>idz.classList.remove('over');
+  idz.ondrop=e=>{ e.preventDefault(); idz.classList.remove('over'); const fi=$('arquivo-inline'); if(e.dataTransfer.files.length){fi.files=e.dataTransfer.files; $('inline-fname').textContent=fi.files[0].name;} };
 
-      lista.innerHTML = '';
-      arquivos.forEach(arq => {
-        const ext  = arq.nome.split('.').pop().toUpperCase();
-        const icon = ext === 'PDF' ? '#ef4444' : ext === 'ZIP' ? '#f59e0b' : '#3b82f6';
-        const div  = document.createElement('div');
-        div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:9px;transition:background .12s;';
-        div.onmouseover = () => div.style.background = 'var(--bg)';
-        div.onmouseout  = () => div.style.background = '';
-        div.innerHTML = `
-          <div style="width:34px;height:34px;border-radius:8px;background:${icon}18;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <span style="font-family:var(--mono);font-size:9px;font-weight:700;color:${icon};">${ext}</span>
-          </div>
-          <div style="flex:1;min-width:0;">
-            <div style="font-family:var(--font);font-size:13px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(arq.nome)}</div>
-            <div style="font-family:var(--mono);font-size:10.5px;color:var(--text-muted);margin-top:2px;">ID: ${arq.id}</div>
-          </div>
-          <a href="${API}/${arq.caminho}" target="_blank" download="${escHtml(arq.nome)}"
-            style="width:30px;height:30px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;transition:background .12s;flex-shrink:0;"
-            onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          </a>`;
-        lista.appendChild(div);
-      });
-    } catch (err) {
-      console.error('Erro ao carregar arquivos:', err);
-      lista.innerHTML = `<div style="text-align:center;padding:24px;color:#ef4444;font-size:13px;font-family:var(--font);">Erro ao carregar arquivos.</div>`;
-      subtit.textContent = 'Erro';
-    }
-  }
+  $('btn-ver-detalhes').onclick=()=>abrir('modal-detalhes');
+  $('close-detalhes').onclick=()=>fechar('modal-detalhes');
+  $('close-det2').onclick=()=>fechar('modal-detalhes');
+  $('btn-det-arquivos').onclick=()=>{ fechar('modal-detalhes'); abrirArquivos(8821,'Residencial Aurora - Torre A'); };
 
-  // Upload inline dentro do modal de arquivos
-  function mostrarNomeInline(input) {
-    document.getElementById('inline-file-name').textContent = input.files[0]?.name || 'Adicionar arquivo...';
-  }
+  $('ctx-arquivos').onclick=()=>{ fecharCtx(); if(obraContexto) abrirArquivos(obraContexto.id, obraContexto.nome); };
+  $('ctx-upload').onclick=()=>{ fecharCtx(); if(obraContexto){ abrir('modal-upload'); $('obra_id').value=obraContexto.id; } };
+  $('ctx-excluir').onclick=()=>{ fecharCtx(); if(obraContexto&&confirm(`Excluir "${obraContexto.nome}"?\n\nEsta ação não pode ser desfeita.`)) toast('Rota DELETE não implementada no servidor.','warn'); };
 
-  function handleDropInline(e) {
-    e.preventDefault();
-    const input = document.getElementById('arquivo-inline');
-    if (e.dataTransfer.files.length) {
-      input.files = e.dataTransfer.files;
-      mostrarNomeInline(input);
-    }
-  }
+  $('btn-ver-alertas').onclick=e=>{ e.stopPropagation(); abrir('modal-alertas'); };
+  $('widget-ai').onclick=()=>abrir('modal-alertas');
+  $('close-alertas').onclick=()=>fechar('modal-alertas');
+  $('close-alertas2').onclick=()=>fechar('modal-alertas');
 
-  async function uploadArquivoInline() {
-    const fileInput = document.getElementById('arquivo-inline');
-    const obraId    = document.getElementById('modal-arquivos').dataset.obraId;
-    if (!fileInput?.files?.length) { showToast('Selecione um arquivo', 'error'); return; }
+  $('nav-support').onclick=e=>{ e.preventDefault(); abrir('modal-suporte'); };
+  $('btn-help').onclick=()=>abrir('modal-suporte');
+  $('close-suporte').onclick=()=>fechar('modal-suporte');
+  $('close-suporte2').onclick=()=>fechar('modal-suporte');
 
-    const formData = new FormData();
-    formData.append('arquivo', fileInput.files[0]);
-    formData.append('obra_id', obraId);
+  $('nav-signout').onclick=e=>{ e.preventDefault(); fazerLogout(); };
 
-    try {
-      const res  = await fetch(`${API}/upload`, { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.erro || 'Erro no upload');
-      showToast('Arquivo enviado!');
-      fileInput.value = '';
-      document.getElementById('inline-file-name').textContent = 'Adicionar arquivo...';
-      await carregarArquivos(obraId);
-    } catch (err) {
-      showToast('Erro no upload', 'error');
-    }
-  }
-
-  // ════════════════════════════════════════════════
-  //  CONTEXT MENU (botão ⋮ de cada obra)
-  // ════════════════════════════════════════════════
-  function abrirContextMenu(x, y) {
-    const menu = document.getElementById('context-menu');
-    menu.style.display = 'block';
-    // garante que não saia da tela
-    const vw = window.innerWidth, vh = window.innerHeight;
-    const mw = 190, mh = 130;
-    menu.style.left = (x + mw > vw ? vw - mw - 8 : x) + 'px';
-    menu.style.top  = (y + mh > vh ? y - mh : y)     + 'px';
-  }
-
-  function fecharContextMenu() {
-    document.getElementById('context-menu').style.display = 'none';
-  }
-
-  function contextAcao(acao) {
-    fecharContextMenu();
-    if (!obraContexto) return;
-    if (acao === 'arquivos') {
-      abrirModalArquivos(obraContexto.id, obraContexto.nome);
-    } else if (acao === 'upload') {
-      abrirModalUpload(obraContexto.id);
-    } else if (acao === 'excluir') {
-      if (confirm(`Deseja realmente excluir a obra "${obraContexto.nome}"?`)) {
-        showToast('Função de exclusão não implementada no servidor.', 'info');
-      }
-    }
-  }
-
-  // ════════════════════════════════════════════════
-  //  UTILITÁRIOS
-  // ════════════════════════════════════════════════
-  function escHtml(str) {
-    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ════════════════════════════════════════════════
-  //  FECHAR MODAIS CLICANDO FORA / ESC
-  // ════════════════════════════════════════════════
-  document.addEventListener('click', (e) => {
-    const overlays = {
-      'modal-login':     fecharModalLogin,
-      'modal-cadastro':  fecharModalCadastro,
-      'modal-nova-obra': fecharModal,
-      'modal-upload':    fecharModalUpload,
-      'modal-arquivos':  fecharModalArquivos,
+  $('btn-notif').onclick=toggleNotif;
+  $('btn-mark-all').onclick=marcarLidas;
+  document.querySelectorAll('.notif-item').forEach(item=>{
+    item.onclick=()=>{
+      item.classList.remove('unread'); item.querySelector('.ndot')?.classList.add('read');
+      unread=Math.max(0,unread-1); if(unread===0) $('notif-dot').style.display='none';
+      fecharNotif();
     };
-    Object.entries(overlays).forEach(([id, fn]) => {
-      if (e.target.id === id) fn();
-    });
-    // fechar context menu
-    if (!e.target.closest('#context-menu') && !e.target.closest('.action-btn')) {
-      fecharContextMenu();
-    }
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      fecharModal(); fecharModalUpload(); fecharModalArquivos();
-      fecharModalLogin(); fecharModalCadastro(); fecharContextMenu();
-    }
+  $('btn-geo').onclick=e=>{ e.stopPropagation(); abrirGeo(); };
+  $('btn-expand-map').onclick=()=>window.open('https://maps.google.com','_blank');
+  $('widget-map').onclick=()=>window.open('https://maps.google.com','_blank');
+
+  $('search-input').oninput=()=>{ clearTimeout(searchTimer); searchTimer=setTimeout(()=>{ paginaAtual=1; renderPagina(); },250); };
+
+  $('filter-exec').onclick=()=>aplicarFiltro(filtroAtivo==='exec'?null:'exec');
+  $('filter-urgent').onclick=()=>aplicarFiltro(filtroAtivo==='urgent'?null:'urgent');
+  $('filter-rev').onclick=()=>aplicarFiltro(filtroAtivo==='rev'?null:'rev');
+  $('filter-badge').onclick=()=>aplicarFiltro(null);
+
+  $('btn-prev').onclick=()=>{ if(paginaAtual>1){paginaAtual--; renderPagina();} };
+  $('btn-next').onclick=()=>{ paginaAtual++; renderPagina(); };
+
+  $('view-grid').onclick=()=>{ $('view-grid').classList.add('active'); $('view-list').classList.remove('active'); toast('Visualização Grid','info'); };
+  $('view-list').onclick=()=>{ $('view-list').classList.add('active'); $('view-grid').classList.remove('active'); toast('Visualização Lista','info'); };
+
+  document.querySelectorAll('#sidebar-nav .nav-item').forEach(item=>{
+    item.onclick=e=>{ e.preventDefault(); document.querySelectorAll('#sidebar-nav .nav-item').forEach(n=>n.classList.remove('active')); item.classList.add('active'); };
   });
 
-  // ════════════════════════════════════════════════
-  //  INICIALIZAÇÃO
-  // ════════════════════════════════════════════════
-  document.addEventListener('DOMContentLoaded', () => {
-    // Botões "Novo Projeto"
-    document.querySelectorAll('.btn-primary, .btn-new-project-sidebar').forEach(btn => {
-      btn.addEventListener('click', abrirModal);
-    });
+  $('btn-relatorio').onclick=()=>toast('Relatório semanal disponível em 48h','info');
 
-    // Widget importar em massa
-    const importWidget = document.querySelector('.widgets-row .widget-card:first-child');
-    if (importWidget) importWidget.addEventListener('click', () => abrirModalUpload());
-
-    // Clique no user info → login ou logout
-    const userInfo = document.querySelector('.user-info');
-    if (userInfo) {
-      userInfo.addEventListener('click', () => {
-        if (usuarioLogado) fazerLogout();
-        else abrirModalLogin();
-      });
-      userInfo.style.cursor = 'pointer';
-    }
-
-    // Abrir login automaticamente na primeira visita
-    abrirModalLogin();
-
-    // Carregar obras mesmo sem login (se a API permitir)
-    carregarObras();
+  document.querySelectorAll('.modal-overlay').forEach(m=>{
+    m.onclick=e=>{ if(e.target===m){ fechar(m.id); limpar(m.id); } };
   });
+
+  document.onkeydown=e=>{ if(e.key==='Escape') fecharTodos(); };
+
+  document.onclick=e=>{
+    if (!e.target.closest('#ctx-menu') && !e.target.closest('.action-btn')) fecharCtx();
+    if (!e.target.closest('#notif-panel') && !e.target.closest('#btn-notif')) fecharNotif();
+  };
+
+  abrir('modal-login');
+  carregarObras();
+});
 </script>
-
-<style>
-  @keyframes spin    { to { transform: rotate(360deg); } }
-  @keyframes slideIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-</style>
-
-</body>
-</html>
-<div id="modal-nova-obra" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;">
-    <button onclick="fecharModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#9ca3af;font-size:20px;line-height:1;">✕</button>
-    <h3 style="font-family:var(--font);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:-.3px;margin-bottom:6px;">Nova Obra</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">Preencha os dados para cadastrar uma nova obra.</p>
-
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Nome da Obra *</label>
-        <input id="nome" type="text" placeholder="Ex: Residencial Aurora - Torre B"
-          style="width:100%;height:40px;border:1.5px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Descrição</label>
-        <textarea id="descricao" placeholder="Descrição ou fase da obra..."
-          style="width:100%;height:80px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;resize:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'"></textarea>
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">ID do Usuário Responsável *</label>
-        <input id="usuario_id" type="text" placeholder="Ex: 1"
-          style="width:100%;height:40px;border:1.5px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-    </div>
-
-    <div style="display:flex;gap:10px;margin-top:24px;">
-      <button onclick="fecharModal()"
-        style="flex:1;height:42px;border:1.5px solid var(--border);border-radius:8px;background:none;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;">
-        Cancelar
-      </button>
-      <button onclick="criarObra()"
-        style="flex:2;height:42px;background:var(--accent);border:none;border-radius:8px;font-family:var(--font);font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;transition:background .15s;"
-        onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">
-        Criar Obra
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ── MODAL: UPLOAD DE ARQUIVO ── -->
-<div id="modal-upload" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;">
-    <button onclick="fecharModalUpload()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#9ca3af;font-size:20px;line-height:1;">✕</button>
-    <h3 style="font-family:var(--font);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:-.3px;margin-bottom:6px;">Importar em Massa</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">Faça upload de planilhas ou documentos .zip para uma obra.</p>
-
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">ID da Obra</label>
-        <input id="obra_id" type="text" placeholder="Ex: 5"
-          style="width:100%;height:40px;border:1.5px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:13.5px;color:var(--text-primary);outline:none;transition:border-color .15s;"
-          onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-family:var(--font);font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:6px;">Arquivo</label>
-        <label id="drop-zone" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:10px;padding:28px 16px;cursor:pointer;transition:border-color .15s;background:var(--bg);"
-          ondragover="event.preventDefault();this.style.borderColor='#3b82f6'" ondragleave="this.style.borderColor='var(--border)'"
-          ondrop="handleDrop(event)">
-          <svg width="28" height="28" fill="none" stroke="#9ca3af" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
-          <span style="font-size:13px;color:var(--text-muted);">Arraste o arquivo ou <span style="color:#3b82f6;font-weight:600;">clique para selecionar</span></span>
-          <span id="file-name" style="font-family:var(--mono);font-size:11px;color:var(--text-secondary);"></span>
-          <input id="arquivo" type="file" style="display:none;" onchange="mostrarNomeArquivo(this)">
-        </label>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:10px;margin-top:24px;">
-      <button onclick="fecharModalUpload()"
-        style="flex:1;height:42px;border:1.5px solid var(--border);border-radius:8px;background:none;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;">
-        Cancelar
-      </button>
-      <button onclick="uploadArquivo()"
-        style="flex:2;height:42px;background:#3b82f6;border:none;border-radius:8px;font-family:var(--font);font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;transition:background .15s;"
-        onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
-        Enviar Arquivo
-      </button>
-    </div>
-  </div>
-</div>
-
-<script>
-  // ── MODAL HELPERS ──
-  function abrirModal() {
-    const m = document.getElementById('modal-nova-obra');
-    m.style.display = 'flex';
-  }
-  function fecharModal() {
-    const m = document.getElementById('modal-nova-obra');
-    m.style.display = 'none';
-    document.getElementById('nome').value = '';
-    document.getElementById('descricao').value = '';
-    document.getElementById('usuario_id').value = '';
-  }
-  function abrirModalUpload() {
-    const m = document.getElementById('modal-upload');
-    m.style.display = 'flex';
-  }
-  function fecharModalUpload() {
-    const m = document.getElementById('modal-upload');
-    m.style.display = 'none';
-    document.getElementById('obra_id').value = '';
-    document.getElementById('arquivo').value = '';
-    document.getElementById('file-name').textContent = '';
-  }
-  function mostrarNomeArquivo(input) {
-    const el = document.getElementById('file-name');
-    el.textContent = input.files[0]?.name || '';
-  }
-  function handleDrop(e) {
-    e.preventDefault();
-    const input = document.getElementById('arquivo');
-    const dt = e.dataTransfer;
-    if (dt.files.length) {
-      input.files = dt.files;
-      mostrarNomeArquivo(input);
-    }
-  }
-  // Fechar modal clicando fora
-  document.addEventListener('click', (e) => {
-    const m1 = document.getElementById('modal-nova-obra');
-    const m2 = document.getElementById('modal-upload');
-    if (e.target === m1) fecharModal();
-    if (e.target === m2) fecharModalUpload();
-  });
-
-  // ── TOAST ──
-  function showToast(msg, tipo = 'success') {
-    const t = document.createElement('div');
-    t.textContent = msg;
-    t.style.cssText = `
-      position:fixed;bottom:24px;right:24px;z-index:9999;
-      background:${tipo === 'success' ? '#10b981' : '#ef4444'};
-      color:white;padding:12px 20px;border-radius:10px;
-      font-family:var(--font);font-size:13.5px;font-weight:600;
-      box-shadow:0 8px 24px rgba(0,0,0,.18);
-      animation:slideIn .25s ease;
-    `;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3000);
-  }
-
-  // ── CARREGAR OBRAS ──
-  async function carregarObras() {
-    const tabela = document.querySelector("tbody");
-    if (!tabela) { console.error("Tabela não encontrada no HTML"); return; }
-    // Skeleton loading
-    tabela.innerHTML = `
-      <tr><td colspan="6" style="padding:32px;text-align:center;color:var(--text-muted);font-size:13px;">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-        Carregando obras...
-      </td></tr>`;
-    try {
-      const res = await fetch('http://localhost:3000/obras');
-      const obras = await res.json();
-      tabela.innerHTML = "";
-      if (!obras.length) {
-        tabela.innerHTML = `<tr><td colspan="6" style="padding:40px;text-align:center;color:var(--text-muted);font-size:13px;">Nenhuma obra cadastrada ainda.</td></tr>`;
-        return;
-      }
-      const gradientes = [
-        'linear-gradient(135deg,#6366f1,#8b5cf6)',
-        'linear-gradient(135deg,#ef4444,#f97316)',
-        'linear-gradient(135deg,#059669,#10b981)',
-        'linear-gradient(135deg,#f59e0b,#ef4444)',
-        'linear-gradient(135deg,#3b82f6,#6366f1)',
-      ];
-      obras.forEach((obra, i) => {
-        const initials = (obra.usuario_nome || 'U').split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
-        const grad = gradientes[i % gradientes.length];
-        tabela.innerHTML += `
-          <tr>
-            <td>
-              <div class="project-cell">
-                <div class="proj-thumb" style="background:${grad}">
-                  <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                </div>
-                <div class="proj-info">
-                  <div class="proj-name">${obra.nome}</div>
-                  <div class="proj-doc">ID: ${obra.id}</div>
-                </div>
-              </div>
-            </td>
-            <td class="location-cell">${obra.descricao || "Sem descrição"}</td>
-            <td>
-              <div class="manager-cell">
-                <div class="m-avatar" style="background:${grad}">${initials}</div>
-                <span class="m-name">${obra.usuario_nome || '—'}</span>
-              </div>
-            </td>
-            <td><span class="status-badge exec">Ativo</span></td>
-            <td>
-              <div class="doc-progress">
-                <div class="doc-bar"><div class="doc-fill blue" style="width:70%"></div></div>
-                <span class="doc-pct">70%</span>
-              </div>
-            </td>
-            <td>
-              <button class="action-btn" title="Mais ações">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-              </button>
-            </td>
-          </tr>`;
-      });
-    } catch (erro) {
-      console.error("Erro ao carregar obras:", erro);
-      tabela.innerHTML = `<tr><td colspan="6" style="padding:32px;text-align:center;color:#ef4444;font-size:13px;">Erro ao conectar com o servidor. Verifique se a API está rodando.</td></tr>`;
-    }
-  }
-
-  // ── CRIAR OBRA ──
-  async function criarObra() {
-    const nome = document.getElementById('nome')?.value?.trim();
-    const descricao = document.getElementById('descricao')?.value?.trim();
-    const usuario_id = document.getElementById('usuario_id')?.value?.trim();
-    if (!nome || !usuario_id) {
-      showToast("Preencha nome e ID do usuário", 'error');
-      return;
-    }
-    try {
-      const res = await fetch('http://localhost:3000/obras', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, descricao, usuario_id })
-      });
-      if (!res.ok) throw new Error('Erro na criação');
-      fecharModal();
-      showToast("Obra criada com sucesso!");
-      carregarObras();
-    } catch (erro) {
-      console.error("Erro ao criar obra:", erro);
-      showToast("Erro ao criar obra", 'error');
-    }
-  }
-
-  // ── UPLOAD DE ARQUIVO ──
-  async function uploadArquivo() {
-    const fileInput = document.getElementById('arquivo');
-    const obra_id = document.getElementById('obra_id')?.value?.trim();
-    if (!fileInput || !fileInput.files.length) {
-      showToast("Selecione um arquivo", 'error');
-      return;
-    }
-    const formData = new FormData();
-    formData.append('arquivo', fileInput.files[0]);
-    formData.append('obra_id', obra_id);
-    try {
-      const res = await fetch('http://localhost:3000/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      console.log("Upload feito:", data);
-      fecharModalUpload();
-      showToast("Arquivo enviado com sucesso!");
-    } catch (erro) {
-      console.error("Erro no upload:", erro);
-      showToast("Erro no upload do arquivo", 'error');
-    }
-  }
-
-  // ── BIND BOTÕES ──
-  document.addEventListener("DOMContentLoaded", () => {
-    // Botões "Novo Projeto" (topbar e sidebar)
-    document.querySelectorAll('.btn-primary, .btn-new-project-sidebar').forEach(btn => {
-      btn.addEventListener('click', abrirModal);
-    });
-    // Widget de importar em massa
-    const importWidget = document.querySelector('.widget-card:first-child');
-    if (importWidget) importWidget.addEventListener('click', abrirModalUpload);
-    // Carregar obras da API
-    carregarObras();
-  });
-</script>
-
-<style>
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes slideIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-</style>
-
 </body>
 </html>
