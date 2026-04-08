@@ -1,4 +1,6 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const validator = require('validator');
 const multer = require('multer');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
@@ -57,20 +59,35 @@ db.serialize(() => {
 // ================= USUÁRIOS =================
 
 // criar usuário
-app.post('/usuarios', (req, res) => {
+app.post('/usuarios', async (req, res) => {
     const { nome, email, senha } = req.body;
 
-    db.run(
-        `INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)`,
-        [nome, email, senha],
-        function (err) {
-            if (err) {
-                return res.status(500).json({ erro: "Email já cadastrado" });
-            }
+    if (!nome || !email || !senha) {
+        return res.status(400).json({ erro: "Preencha todos os campos" });
+    }
 
-            res.json({ id: this.lastID, nome, email });
-        }
-    );
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({ erro: "E-mail inválido" });
+    }
+
+    try {
+        const hash = await bcrypt.hash(senha, 10);
+
+        db.run(
+            `INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)`,
+            [nome, email, hash],
+            function (err) {
+                if (err) {
+                    return res.status(500).json({ erro: "Email já cadastrado" });
+                }
+
+                res.json({ id: this.lastID, nome, email });
+            }
+        );
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ erro: "Erro ao criar usuário" });
+    }
 });
 
 // login
@@ -78,11 +95,14 @@ app.post('/login', (req, res) => {
     const { email, senha } = req.body;
 
     db.get(
-        `SELECT * FROM usuarios WHERE email = ? AND senha = ?`,
-        [email, senha],
-        (err, user) => {
+        `SELECT * FROM usuarios WHERE email = ?`,
+        [email],
+        async (err, user) => {
             if (err) return res.status(500).json(err);
             if (!user) return res.status(401).json({ erro: "Credenciais inválidas" });
+
+            const valid = await bcrypt.compare(senha, user.senha);
+            if (!valid) return res.status(401).json({ erro: "Credenciais inválidas" });
 
             res.json({ mensagem: "Login realizado", usuario: user });
         }
