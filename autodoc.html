@@ -761,18 +761,33 @@ async function cadastrarUsuario() {
   const email=$('cad-email').value.trim();
   const senha=$('cad-senha').value;
   const err=$('cad-erro');
+  const btn=$('btn-cadastrar');
   err.style.display='none';
-  if (!nome||!email||!senha) { err.textContent='Preencha todos os campos.'; err.style.display='block'; return; }
+  if (!nome) { err.textContent='Informe seu nome completo.'; err.style.display='block'; return; }
+  if (!email) { err.textContent='Informe seu e-mail.'; err.style.display='block'; return; }
+  if (!senha) { err.textContent='Informe sua senha.'; err.style.display='block'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent='Digite um e-mail válido.'; err.style.display='block'; return; }
   if (senha.length<6) { err.textContent='Senha com mínimo 6 caracteres.'; err.style.display='block'; return; }
+  btn.disabled=true;
+  btn.textContent='Criando conta...';
   try {
     const res=await fetch(`${API}/usuarios`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome,email,senha})});
-    const data=await res.json();
+    const data=await res.json().catch(()=>({}));
     if (!res.ok) throw new Error(data.erro||'Erro ao criar conta');
     fechar('modal-cadastro'); limpar('modal-cadastro');
     toast('Conta criada! Faça login.');
     abrir('modal-login');
     $('login-email').value=email;
-  } catch(e) { err.textContent=e.message; err.style.display='block'; }
+  } catch(e) {
+    const msg=e?.message||'Não foi possível criar a conta no momento.';
+    if (/email/i.test(msg)) err.textContent='Este e-mail já está cadastrado.';
+    else if (/network|failed to fetch|fetch/i.test(msg)) err.textContent='Falha de conexão com o servidor. Tente novamente.';
+    else err.textContent=msg;
+    err.style.display='block';
+  } finally {
+    btn.disabled=false;
+    btn.textContent='Criar Conta';
+  }
 }
 
 async function carregarObras() {
