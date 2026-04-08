@@ -995,6 +995,55 @@ function abrirGeo() {
   } else window.open('https://maps.google.com','_blank');
 }
 
+function navegarSecao(secao) {
+  const titulo=document.querySelector('.page-header h2');
+  const subtitulo=document.querySelector('.page-header p');
+  const featured=document.querySelector('.featured-row');
+  const tabela=document.querySelector('.obra-section');
+  const widgets=document.querySelector('.widgets-row');
+  let estado=$('section-placeholder');
+
+  const mostrar = (...els) => els.forEach(el=>{ if(el) el.style.display=''; });
+  const esconder = (...els) => els.forEach(el=>{ if(el) el.style.display='none'; });
+
+  if (!estado) {
+    estado=document.createElement('div');
+    estado.id='section-placeholder';
+    estado.className='obra-section';
+    estado.style.padding='26px';
+    estado.style.display='none';
+    estado.innerHTML='<h3 style="font-size:18px;margin-bottom:8px;">Módulo em desenvolvimento</h3><p style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;">Esta seção já está navegável. Agora podemos conectar os dados reais e ações específicas.</p>';
+    document.querySelector('.content')?.appendChild(estado);
+  }
+
+  if (secao==='projects') {
+    titulo.textContent='Meus Projetos';
+    subtitulo.innerHTML='Você tem <strong id="total-obras">'+(todasObras.length||'—')+'</strong> obras ativas nesta unidade.';
+    esconder(estado);
+    mostrar(featured,tabela,widgets);
+    return;
+  }
+
+  if (secao==='dashboard') {
+    titulo.textContent='Dashboard';
+    subtitulo.textContent='Visão geral da operação e indicadores principais.';
+    esconder(estado);
+    mostrar(featured,tabela,widgets);
+    return;
+  }
+
+  const labels={
+    blueprints:'Blueprints',
+    fieldlogs:'Field Logs',
+    settings:'Configurações'
+  };
+  titulo.textContent=labels[secao]||'Seção';
+  subtitulo.textContent='Navegação da barra lateral funcionando com sucesso.';
+  esconder(featured,tabela,widgets);
+  estado.querySelector('h3').textContent=labels[secao]||'Seção';
+  estado.style.display='';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   $('btn-fazer-login').onclick=fazerLogin;
   $('login-email').onkeydown=e=>{ if(e.key==='Enter') fazerLogin(); };
@@ -1082,7 +1131,12 @@ document.addEventListener('DOMContentLoaded', () => {
   $('view-list').onclick=()=>{ $('view-list').classList.add('active'); $('view-grid').classList.remove('active'); toast('Visualização Lista','info'); };
 
   document.querySelectorAll('#sidebar-nav .nav-item').forEach(item=>{
-    item.onclick=e=>{ e.preventDefault(); document.querySelectorAll('#sidebar-nav .nav-item').forEach(n=>n.classList.remove('active')); item.classList.add('active'); };
+    item.onclick=e=>{
+      e.preventDefault();
+      document.querySelectorAll('#sidebar-nav .nav-item').forEach(n=>n.classList.remove('active'));
+      item.classList.add('active');
+      navegarSecao(item.dataset.section);
+    };
   });
 
   $('btn-relatorio').onclick=()=>toast('Relatório semanal disponível em 48h','info');
@@ -1100,6 +1154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   abrir('modal-login');
   carregarObras();
+  navegarSecao('projects');
 });
 </script>
 </body>
